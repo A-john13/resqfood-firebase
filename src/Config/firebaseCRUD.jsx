@@ -56,7 +56,7 @@ const useFirebaseCRUD = () => {
         try {
             const docRef = await addDoc(collection(db,`${collectionName}`), data);
             alert("THANkYOU, we'll get back to you!");
-            
+            nav("/home");
             return docRef.id;
         } catch (error) {
           alert("error in adding document",error);

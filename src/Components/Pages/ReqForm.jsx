@@ -61,7 +61,6 @@ const ReqForm = () => {
     }
 
     try {
-      console.log(formData);
       await addReqDonat("REQs",formData);
       console.log("Req Details added");
     } catch (error) {

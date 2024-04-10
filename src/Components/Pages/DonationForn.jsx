@@ -52,7 +52,6 @@ const DonationForn = () => {
   }
 
     try {
-      console.log(formData);
       await addReqDonat("DONATs", formData);
       console.log("DonationDetails added");
     } catch (error) {
