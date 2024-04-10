@@ -13,13 +13,13 @@ const Notifications = () => {
 
   Notifications.handleShow = () => setShow(true);
 
-  useEffect(() => {
-    // Fetch notifications when component mounts
-    getNotifications(UID, userRole)
-    // .then((notifications) => {
-    //   setNotifications(notifications);
-    // });
-  }, [UID, userRole, getNotifications]);
+  // useEffect(() => {
+  //   // Fetch notifications when component mounts
+  //   getNotifications(UID, userRole);
+  //   // .then((notifications) => {
+  //   //   setNotifications(notifications);
+  //   // });
+  // }, [UID, userRole, getNotifications]);
 
   const handleClose = () => setShow(false);
 

@@ -7,6 +7,7 @@ import LandingPage from './Components/Pages/LandingPage'
 import SignIn from './Components/Pages/SignIn'
 import Home from './Components/Pages/Home'
 import RegisterPersonal from './Components/Pages/RegisterPersonal'
+import OrgModal from './Components/Pages/OrgModal'
 import DonationForn from './Components/Pages/DonationForn'
 import ReqForm from './Components/Pages/ReqForm'
 import DonorProfile from './Components/Pages/DonorProfile'
@@ -42,6 +43,7 @@ function App() {
         <Route path="/user/donate" element={ <DonationForn/> }/>
         <Route path="/user/request" element={ <ReqForm/> }/>
         <Route path="/user/signup/initialForm" element={ <RegisterPersonal/> }/>
+        <Route path="/user/orgForm" element={ <OrgModal/> }/>
 
       </Routes>
     </div>

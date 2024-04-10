@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFirebase } from "./firebase";
 import { getDatabase } from 'firebase/database';
 import { serverTimestamp,where,query,getFirestore, 
@@ -34,8 +34,9 @@ const useFirebaseCRUD = () => {
     //orgData
     const addOrgData = async (data,OrgProof) => {
         try {
-            if (data.orgProof) {
-                const storageRef = ref(storage, `proofs/${data.orgProof.name}-${Date.now()}`);
+            if (OrgProof) {
+              console.log("if");
+                const storageRef = ref(storage, `proofs/${OrgProof.name}-${Date.now()}`);
                 await uploadBytes(storageRef, data.orgProof);
                 const downloadURL = await getDownloadURL(storageRef);
                 data = { ...data, orgProof: downloadURL };
@@ -43,6 +44,7 @@ const useFirebaseCRUD = () => {
     
             const docRef = await addDoc(collection(db,`Org_DATA`), data);
             alert("Thankyou for your valuable donation, we'll notify you soon");
+            nav('/home');
             return docRef.id;
         } catch (error) {
             console.error('Error adding document:', error);
@@ -63,17 +65,34 @@ const useFirebaseCRUD = () => {
     };
     
     // Get user data based on UID
-const getUserData = async (uid) => {
+    const getUserData = async (UID) => {
+      try {
+        const userQuery = query(collection(db, 'USER_DATA'), where('uid', '==', UID));
+        const userQuerySnapshot = await getDocs(userQuery);
+    
+        if (!userQuerySnapshot.empty) {
+          const userData = userQuerySnapshot.docs[0].data();
+          return userData;
+        } else {
+          console.log('User data not found');
+          return null;
+        }
+      } catch (error) {
+        console.error('Error getting user data:', error);
+        return null;
+      }
+    };
+//get org - realted user
+const getOrgUserData = async (UID) => {
   try {
-    const userDocRef = doc(db, `USER_DATA`, uid);
-    
-    const userDocSnapshot = await getDoc(userDocRef);
-    
-    if (userDocSnapshot.exists()) {
-      const userData = userDocSnapshot.data();
-      return userData;
+    const userOrgQuery = query(collection(db, 'Org_DATA'), where('representID', '==', UID));
+    const userOrgQuerySnapshot = await getDocs(userOrgQuery);
+
+    if (!userOrgQuerySnapshot.empty) {
+      const userOrgData = userOrgQuerySnapshot.docs[0].data();
+      return userOrgData;
     } else {
-      console.log('User data not found');
+      console.log('User-Org data not found');
       return null;
     }
   } catch (error) {
@@ -81,7 +100,6 @@ const getUserData = async (uid) => {
     return null;
   }
 };
-
 
 //donation
 const getDonatData = async (uid) => {
@@ -173,7 +191,7 @@ const fetchUserDetails = async () => {
       const userData = doc.data();
       userDetails.push({ userId, ...userData });
     });
-
+    console.log("sub",unsubscribe);
   return userDetails;
 };
 
@@ -213,15 +231,12 @@ const fetchUserDetails = async () => {
     userQuerySnapshot.forEach((userDoc) => {
       userData = userDoc.data();
       reqsUserData.push({...userDoc});
-      console.log("naam",reqsUserData)
-      console.log("r",userData);    
     });
 
     reqsWithUserData.push({ id: doc.id, ...reqData, ...userData });
 
   }
   
-  console.log("reqs",reqsWithUserData);
   return [reqsWithUserData,reqsUserData];
  };
 
@@ -239,7 +254,8 @@ const fetchUserDetails = async () => {
  
 }
 // Function to fetch users
-const fetchUsers = async (setData) => {
+const fetchUsers = async () => {
+  const [data,setData] = useState([]);
   const usersRef = collection(db, "USER_DATA");
   
   const unsubscribe = onSnapshot(usersRef, (snapshot) => {
@@ -248,8 +264,9 @@ const fetchUsers = async (setData) => {
       usersData.push({ id: doc.id, ...doc.data() });
     });
     setData(usersData);
+    console.log("crud users", )
   });
-
+ 
   return unsubscribe;
 };
 
@@ -272,7 +289,8 @@ const fetchAllReqs = async()=> {
 
     
   
-    return { addUserData, addOrgData, addReqDonat, getUserData,
+    return { addUserData, addOrgData, addReqDonat, 
+      getUserData,getOrgUserData,
       getReqsData, getDonatData, 
       getNotifications, PostNotifications,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,

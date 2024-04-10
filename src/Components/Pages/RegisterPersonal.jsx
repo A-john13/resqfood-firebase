@@ -11,12 +11,11 @@ import './CSS/RegisterPersonal.css'
 
 const RegisterPersonal = () => {
   const firebase = useFirebase();
-  const { addUserData } = useFirebaseCRUD();
+  const { addUserData,getUserData } = useFirebaseCRUD();
 
   const {user,UID,userRole} = useFirebase();
   const nav = useNavigate();
-  
-  const [showOrgModal, setShowOrgModal] = useState(false);
+  const [userData, setUserData] = useState(null);
   
   //Location Coordinates
   const [latitud, setLatitud] = useState(null);
@@ -50,7 +49,7 @@ const RegisterPersonal = () => {
     phone: "",
     isOrg: true,
     uid: UID,
-    latitude:latitud,longitude:longitud,
+    latitude:'',longitude:'',
     proof:null,
     adminVerifyDetails: false,
   });
@@ -61,6 +60,8 @@ const RegisterPersonal = () => {
         if (name === 'proof') {
           setFormData((prevData) => ({
             ...prevData,
+            latitude:latitud,
+            longitude:longitud,
             [name]: e.target.files[0]
           }));
         } 
@@ -79,11 +80,8 @@ const RegisterPersonal = () => {
       
     }
     
-    if(formData.isOrg === true){
-      setShowOrgModal(true);
-    }
+    
     setValidated(true);
-    console.log(formData);
     try {
       event.preventDefault();
       const id =  addUserData(formData,formData.proof);
@@ -92,6 +90,9 @@ const RegisterPersonal = () => {
       if(formData.isOrg === false){
         
       alert("Thankyou data submitted");
+      }
+      if(formData.isOrg === true){
+        nav('/user/orgForm');
       }
       
     } catch (error) {
@@ -110,7 +111,18 @@ const RegisterPersonal = () => {
     }
   };
  
-  
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await getUserData(UID);
+      setUserData(userData);
+    };
+    fetchUserData();
+    if (userData) {
+      nav('/home');
+    };
+  }, [UID, getUserData]);
+
 
   return (
     <>
@@ -120,13 +132,7 @@ const RegisterPersonal = () => {
      <div className="d-flex flex-column register" style={{ width: "100vw", minHeight: '100vh' }}>
      <NavBar ></NavBar>
 
-      <>
-      { showOrgModal &&
-      <OrgModal/>
-      }
-    </>
-
-      <Form className="my-5 registerForm" noValidate validated={validated} onSubmit={handleSubmit} style={{ width: '50vw' }} >
+      <Form className="my-5 registerForm" validated={validated} onSubmit={handleSubmit} style={{ width: '50vw' }} >
         <Row className="m-0 px-2 py-1 text-center">
           <h3 className="m-0 p-3 title">Introduce Yourself</h3>
           <h5>Email : {firebase.user.email}</h5>
@@ -153,7 +159,7 @@ const RegisterPersonal = () => {
 
           <Row className="g-2 m-0 " style={{ width: '95%' }}>
 
-          <Form.Text style={{fontWeight:'bold'}}>Personal Address,Please enure that the address provided is Personal</Form.Text>
+          <Form.Text style={{fontWeight:'bold'}}>Please enure that the address provided is Personal</Form.Text>
 
             <Col md={8} >
               <Form.Group className="mb-4">

@@ -10,16 +10,24 @@ import {getStorage,ref,uploadBytes,getDownloadURL}  from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
 const FirebaseContext = createContext(null);
-const firebaseConfig = {
-    apiKey: "AIzaSyCoLFu2d76SwSNWCAqb8-RQyCMADnBUwO0",
-    authDomain: "resqfood-c3120.firebaseapp.com",
-    projectId: "resqfood-c3120",
-    storageBucket: "resqfood-c3120.appspot.com",
-    messagingSenderId: "658515381984",
-    appId: "1:658515381984:web:cae0ee7065057c68a0ca85"
-  };
+// const firebaseConfig = {
+//     apiKey: "AIzaSyCoLFu2d76SwSNWCAqb8-RQyCMADnBUwO0",
+//     authDomain: "resqfood-c3120.firebaseapp.com",
+//     projectId: "resqfood-c3120",
+//     storageBucket: "resqfood-c3120.appspot.com",
+//     messagingSenderId: "658515381984",
+//     appId: "1:658515381984:web:cae0ee7065057c68a0ca85"
+//   };
 
-  
+const firebaseConfig = {
+  apiKey: "AIzaSyAfeI24uE-Lv907EjCZxXjYV26EYDuj0NI",
+  authDomain: "resqfood-a4ded.firebaseapp.com",
+  databaseURL: "https://resqfood-a4ded-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "resqfood-a4ded",
+  storageBucket: "resqfood-a4ded.appspot.com",
+  messagingSenderId: "683337899671",
+  appId: "1:683337899671:web:cd5826531ac686e92753d2"
+};  
 export const useFirebase = () => useContext(FirebaseContext);
 
 export const fireapp = initializeApp(firebaseConfig);

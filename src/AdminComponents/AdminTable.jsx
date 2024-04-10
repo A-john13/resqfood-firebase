@@ -82,12 +82,10 @@ export const UserTable =()=>{
   const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedUsers = await fetchUsers();
-      setUserDatas(fetchedUsers);
-    };
 
-    fetchData();
+    fetchUsers();
+    console.log("fetc",fetchUsers());
+
   }, []);
 
   const handleShowModal = (user) => {
@@ -134,7 +132,7 @@ export const UserTable =()=>{
             <th>Click for more</th>
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {userDatas.map((user, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
@@ -151,7 +149,7 @@ export const UserTable =()=>{
               </td>
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
       </Table>
 
       <Modal
