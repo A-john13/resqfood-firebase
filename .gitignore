@@ -23,7 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-repor.jsx
-AdminReports.jsx
 firebase-resq.zip
 firebase.zip
