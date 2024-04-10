@@ -85,7 +85,8 @@ const AdminPopUp = ({ caption, showModal, handleClose, rowData,userID,data }) =>
               <p className="label" >Status: {donat_data.status === 0 ? "active" : 'completed'}</p>
               <p className="label" >Donation Date: {donat_data.dateDonating}</p>
               <p className="label" >Phone: {donorData.phone}</p>
-              <p className="label" >Quantity, in number of persons: {donat_data.qtyDonating}</p>
+              <p className="label" >Quantity: {donat_data.qtyDonating}  
+                              <br />(as in number of persons)</p>
               <p className="label" >Organisation Name: {donorData.isOrg === true ? orgData.orgName : "NULL"}</p>
               <p className="label" >Address: {donat_data.Donation_Address}</p>
               <p className="label" >Meal Type: {donat_data.mealType}</p>

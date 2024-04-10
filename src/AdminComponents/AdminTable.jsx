@@ -7,7 +7,7 @@ import useFirebaseCRUD from "../Config/firebaseCRUD";
 import {useFirebase} from "../Config/firebase";
 
 const AdminTable = ({ caption, data, userData }) => {
-
+console.log(data)
 
   const [showModal, setShowModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -72,22 +72,22 @@ const AdminTable = ({ caption, data, userData }) => {
 export default AdminTable;
 
 
-export const UserTable =()=>{
+export const UserTable =( {data} )=>{
   const firebase = useFirebase();
   const db =getFirestore();
-  const {fetchUsers} =useFirebaseCRUD();
-  const [userDatas, setUserDatas] = useState([]);
+  const {fetchUserDetails} =useFirebaseCRUD();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [userDatas, setUserDatas] = useState([]);
+
   useEffect(() => {
+    const unsubscribe = fetchUserDetails(setUserDatas);
+    return () => unsubscribe;
+  }, []);
 
-    fetchUsers();
-    console.log("fetc",fetchUsers());
-
-  }, [fetchUsers,]);
-
+console.log(userDatas);
   const handleShowModal = (user) => {
     setSelectedUser(user);
     setShowModal(true);
@@ -98,7 +98,6 @@ export const UserTable =()=>{
     setShowModal(false);
   };
 
- const[uid,setUid]= useState('');
   const handleVerify = async (uid) => {
     try {
     console.log(uid,"upadate");
@@ -109,6 +108,7 @@ export const UserTable =()=>{
         adminVerifyDetails: true,
       });
       setShowAlert(true);
+      handleCloseModal();
     } else {
       console.error("Document does not exist");
     }
@@ -132,11 +132,11 @@ export const UserTable =()=>{
             <th>Click for more</th>
           </tr>
         </thead>
-        {/* <tbody>
+        <tbody>
           {userDatas.map((user, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
-              <td>{user.adminVerifyDetails ? "verified" : "not verified"}</td>
+              <td>{user.adminVerifyDetails===true ? "verified" : "not verified"}</td>
               <td>{user.firstName}</td>
               <td>{user.phone}</td>
               <td>
@@ -149,7 +149,7 @@ export const UserTable =()=>{
               </td>
             </tr>
           ))}
-        </tbody> */}
+        </tbody>
       </Table>
 
       <Modal

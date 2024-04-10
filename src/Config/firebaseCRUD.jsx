@@ -181,19 +181,33 @@ const PostNotifications =()=> {
 
    
 // for admin
-const fetchUserDetails = async () => {
+const fetchUserDetails = async (setUserDatas) => {
   const userDetails = [];
-  
-    const userSubcollectionRef = collection(db, `USER_DATA`);
-    const userSubcollectionSnapshot = await getDocs(userSubcollectionRef);
-    
-    userSubcollectionSnapshot.forEach((doc) => {
-      const userData = doc.data();
-      userDetails.push({ userId, ...userData });
+
+  const userSubcollectionRef = collection(db, `USER_DATA`);
+  const unsubscribe = onSnapshot(userSubcollectionRef, (snapshot) => {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "added") {
+        userDetails.push({ ...change.doc.data(), id: change.doc.id });
+      }
+      if (change.type === "modified") {
+        const index = userDetails.findIndex((user) => user.id === change.doc.id);
+        if (index !== -1) {
+          userDetails[index] = { ...change.doc.data(), id: change.doc.id };
+        }
+      }
+      if (change.type === "removed") {
+        const index = userDetails.findIndex((user) => user.id === change.doc.id);
+        if (index !== -1) {
+          userDetails.splice(index, 1);
+        }
+      }
     });
-    console.log("sub",unsubscribe);
-  return userDetails;
+    setUserDatas(userDetails);
+  });
+  return unsubscribe;
 };
+
 
  const fetchDonations = async () => {
   const donationsSnapshot = await getDocs(collection(db, 'DONATs'));

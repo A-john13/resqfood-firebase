@@ -12,11 +12,14 @@ import "./CSS/AdminDash.css";
 const AdminDash = () => {
   const nav=useNavigate();
   const firebase = useFirebase();
-  const { fetchDonations, fetchRequests } = useFirebaseCRUD();
+  const { fetchDonations, fetchRequests,fetchUserDetails } = useFirebaseCRUD();
+
   const [donations, setDonations] = useState([]);
   const [requests, setRequests] = useState([]);
   const [donationUserData, setDonationUserData] = useState([]);
   const [reqsUserData, setReqsUserData] = useState([]);
+  const [userDatas, setUserDatas] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const [fetchedDonations, fetchedDonationUserData] = await fetchDonations();
@@ -26,9 +29,13 @@ const AdminDash = () => {
       const [fetchedRequests, fetchedReqsUserData] = await fetchRequests();
       setRequests(fetchedRequests);
       setReqsUserData(fetchedReqsUserData);
-      
+
+      const details =  await fetchUserDetails();
+      console.log(details)
+      setUserDatas(details);
     };
 
+    console.log(userDatas,"wtf")
     fetchData();
   }, []);
 
@@ -125,7 +132,7 @@ const AdminDash = () => {
             <Container className="p-2 m-0"  fluid>
 
               
-            {showUsers && <UserTable />}
+            {showUsers && <UserTable data={userDatas} />}
             {showTable && selectedTab === "Requests" && (
                 <AdminTable caption="Requests" data={requests}  userData={reqsUserData}/>
               )}
