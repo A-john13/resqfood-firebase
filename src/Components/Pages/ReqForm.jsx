@@ -75,7 +75,7 @@ const ReqForm = () => {
        <NavBar className="pb-4"></NavBar>
        </>
     <div className="my-4 py-5 px-4 container reqFormContainer">
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form  validated={validated} onSubmit={handleSubmit}>
         <h2 className="pb-3 mb-1 text-center title">Request Form</h2>
 
           <Row className="g-2 mt-0" id="dateInput">
