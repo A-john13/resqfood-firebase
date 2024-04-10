@@ -63,7 +63,7 @@ const DonationForn = () => {
   return (
     <div className="py-4 d-flex justify-content-center donationForm">
       <div className="py-4 px-4 m-0 container donationFormContainer">
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form validated={validated} onSubmit={handleSubmit}>
           <h2 className="pb-3 text-center title">Donation Form</h2>
 
           <Row className="g-2 m-0">

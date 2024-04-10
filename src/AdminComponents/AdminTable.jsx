@@ -86,7 +86,7 @@ export const UserTable =()=>{
     fetchUsers();
     console.log("fetc",fetchUsers());
 
-  }, []);
+  }, [fetchUsers,]);
 
   const handleShowModal = (user) => {
     setSelectedUser(user);
