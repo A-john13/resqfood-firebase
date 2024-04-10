@@ -27,8 +27,7 @@ console.log(data)
           <tr>
             <th>#</th>
             <th>{caption === "Donations" ? "Donor" : "Recipient"} Name</th>
-            <th>Date</th>
-            <th>Phone</th>
+            <th>Donation Date</th>
             {caption === "Donations" && <th>Address</th>}
             {caption === "Requests" && <th>Food Supply</th>}
             <th>Click for More</th>
@@ -40,7 +39,6 @@ console.log(data)
               <td>{index + 1}</td>
               <td>{row.fullName}</td>
               <td>{row.dateDonating}</td>
-              <td>{row.alternatePhone}</td>
               {caption === "Donations" && <td>{row.Donation_Address}</td>}
               {caption === "Requests" && <td>{row.addressDelivery}</td>}
               <td>

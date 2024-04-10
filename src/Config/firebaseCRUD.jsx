@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { useFirebase } from "./firebase";
 import { getDatabase } from 'firebase/database';
-import { serverTimestamp,where,query,getFirestore, 
+import { serverTimestamp,getFirestore, 
   onSnapshot,updateDoc,
+  where,query, orderBy,count,sum,
   collection, doc, addDoc,getDoc, getDocs,setDoc } from 'firebase/firestore';
 import {getStorage,ref,uploadBytes,getDownloadURL}  from "firebase/storage"; 
 import { useNavigate } from "react-router-dom";
@@ -287,17 +288,88 @@ const fetchUsers = async () => {
 
 //reports
 
-const fetchAllDonations = async()=>{
-  const donatsSnapshot = await getDocs(collection(db, 'DONATs'));
-  const donatsData = donatsSnapshot.docs.map(doc => doc.data());
-  return donatsData;
+const fetchAllDonations = async (statusFilter, verificationFilter) => {
+  const donationsRef = collection(db, 'DONATs');
+  let filteredDonationsQuery = donationsRef;
+
+  if (statusFilter) {
+    filteredDonationsQuery = query(filteredDonationsQuery, where('status', '==', statusFilter));
+  }
+
+  if (verificationFilter) {
+    filteredDonationsQuery = query(filteredDonationsQuery, where('adminVerify', '==', verificationFilter));
+  }
+
+  const donationsSnapshot = await getDocs(filteredDonationsQuery);
+  const donations = donationsSnapshot.docs.map(doc => doc.data());
+
+  return donations;
 };
 
-const fetchAllReqs = async()=> {
-  const reqsSnapshot = await getDocs(collection(db, 'REQs'));
-  const reqsData = reqsSnapshot.docs.map(doc => doc.data());
-  return reqsData;
+const groupDonations = async () => {
+  const donations = await fetchDonations();
+  const groupedByDonorId = orderBy(donations, 'donorId');
+  const donorIdCounts = {};
+  for (const donorId in groupedByDonorId) {
+    donorIdCounts[donorId] = groupedByDonorId[donorId].length;
+  }
+
+  const groupedByDistrict = orderBy(donations, 'District');
+  const districtCounts = {};
+  for (const district in groupedByDistrict) {
+    districtCounts[district] = groupedByDistrict[district].length;
+  }
+
+  return { donorIdCounts, districtCounts };
 };
+
+
+const getGroupByDonorId = async () => {
+  const donationsRef = collection(db, 'DONATs');
+  const donationsSnapshot = await getDocs(donationsRef);
+  const donationsData = [];
+
+  donationsSnapshot.forEach((doc) => {
+    const donation = doc.data();
+    const existingDonation = donationsData.find((d) => d.donorID === donation.donorID);
+    const querySnapshot = getDocs(collection(db, 'USER_DATA'), where('uid', '==', donation.donorID));
+    const userData = [];
+    // querySnapshot.forEach((doc) => {
+    //   userData.push({ donorName: doc.fullName });
+    // });
+    if (existingDonation) {
+      existingDonation.count++;
+    } else {
+
+      donationsData.push({ donorId: donation.donorID, count: 1 });
+    }
+  });
+
+  return donationsData;
+};
+
+const getGroupByDistrict = async () => {
+  const donationsRef = collection(db, 'DONATs');
+  const donationsSnapshot = await getDocs(donationsRef);
+  const donationsData = [];
+  console.log(donationsSnapshot);
+
+  donationsSnapshot.forEach((doc) => {
+    const donation = doc.data();
+    const existingDistrict = donationsData.find((d) => d.district === donation.district);
+    
+    if (existingDistrict) {
+      existingDistrict.count++;
+      console.log(existingDistrict);
+    } else {
+      donationsData.push({ district: donation.district, count: 1 });
+      console.log(donationsData);
+    }
+  });
+
+  return donationsData;
+};
+
 
 
 
@@ -308,7 +380,7 @@ const fetchAllReqs = async()=> {
       getReqsData, getDonatData, 
       getNotifications, PostNotifications,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
-      fetchAllDonations,fetchAllReqs,
+      fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
       createCombination,fetchCombination,updateCombination,
       getDataById, getAllData };
       

@@ -1,0 +1,16 @@
+/* reports */
+
+.adminReportBox{
+    min-height: 100dvh !important;
+    max-height: max-content;
+    width: 100dvw !important;
+}
+
+/* .adminReportBox .reports{
+    height: fit-content;
+} */
+#myChart{
+    height: 55dvh !important;
+    min-height: fit-content ;
+    width: 60dvw !important;
+}
