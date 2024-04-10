@@ -1,0 +1,43 @@
+/* reqFrom */
+
+/* .reqForm{
+    background-image: url("https://imgs.search.brave.com/AR3oO0GE7XeBqC3mYzfsXtFMFp5iAIUC6abfYfIPzmU/rs:fit:860:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzkyLzIwLzM3/LzM2MF9GXzI5MjIw/MzczNV9DU3N5cXlT/NkE0WjlDemQ0TXNm/N3FaRWhveGpwelps/MS5qcGc");
+    
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    
+} */
+.reqForm{
+    width: 100dvw;
+    min-height: 100dvh;
+    justify-content: center;
+    place-content: center;
+}
+.title{
+    color: rgb(63, 36, 36);
+}
+.reqFormContainer{
+    width: 50% !important;
+    /* outline: 7px solid grey; */
+    box-shadow: 2px 3px 6px 4px grey ;
+    border-radius: 20px;
+    background: linear-gradient(to left bottom, rgb(228, 217, 158) 25%, rgb(161, 175, 192)) !important;
+
+}
+.reqFormBTN{
+    background: linear-gradient(45deg, rgb(16, 137, 211) , rgb(22, 52, 151) ) !important;
+
+}
+.reqFormBTN:hover{
+    transform: scale(1.03);
+    background: linear-gradient(225deg, rgb(16, 137, 211) 0%, rgb(22, 52, 151) 100%) !important;
+}
+
+@media screen and (width<600px) {
+    
+    .reqFormContainer{
+        width: 90% !important;
+    }
+}

@@ -1,0 +1,16 @@
+/* admintable */
+
+.adminUserModal table, .modal{
+    font-weight: bold;
+    text-align: center;
+}
+
+.adminUserModal button{
+    color: dimgrey !important;
+    font: bold !important;
+
+}
+.adminUserModal .mod{
+    font-weight: bold;
+    background: black !important;
+}

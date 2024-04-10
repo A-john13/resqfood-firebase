@@ -1,0 +1,10 @@
+.info-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 100%;
+  }
+
+  .donorDash{
+    width: 100dvw;
+    height: 100dvh;
+  }

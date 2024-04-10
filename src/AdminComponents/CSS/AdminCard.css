@@ -1,0 +1,7 @@
+.cardBody{
+    background: rgb(114, 112, 112);
+}
+
+.adminCard{
+    min-width: 250px !important;
+}

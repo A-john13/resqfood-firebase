@@ -1,0 +1,28 @@
+.adminDash{
+    width: 100dvw;
+    min-height: 100dvh;
+    box-sizing: border-box;
+}
+
+@media screen and (min-width:700px){
+    
+
+.cardfellas{
+    
+    }
+}
+
+@media screen and (width<600px) {
+.sidebar{
+    height: max-content;
+}
+.cardfellas{
+width: 100%;
+display: flex !important;
+flex-direction: column !important;
+justify-content: center !important;
+
+align-items: center;
+padding: 0px 25px;
+}
+}

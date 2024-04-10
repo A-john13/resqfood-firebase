@@ -1,0 +1,30 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center;
+  /* place-content: center; */
+}
+
+.AppBox{
+  width: 100dvw;
+  background: linear-gradient(to right top, rgb(228, 217, 158) 25%, rgb(161, 175, 192)) !important;
+  display: flex;
+  place-content: center;
+  
+}
+
+.navbar{
+  /* background-color: #d4b567;
+  background:  rgb(228, 217, 158) 25%;
+  background: rgb(161, 175, 192); */
+  background: #a1afc0;
+  }
+.navbar-nav a{
+  color: #333333;
+  font-weight: 600;
+}
+.navbar-nav a:hover{
+  color: #ffffff;
+  font-size: larger;
+}

@@ -1,0 +1,33 @@
+/* CarouselCompo for mobile */
+
+.custom-image {
+    aspect-ratio: 16/10;
+    height: 400px;
+  
+  }
+  
+  @media (width< 768px) {
+      .custom-image {
+        object-fit: contain;
+        max-height: 300px !important;
+        max-width: 300px !important;
+      }
+      .ImageSlider{
+        max-width: 80dvw;
+        height: 100% !important;
+        padding: 5px 0px 5px 0px;
+      }
+      
+    }
+  
+    @media (width< 576px) {
+      .custom-image {
+        max-height: 200px !important;
+        max-width: 100% !important;
+      }
+      .ImageSlider{
+        max-width:80dvw;
+        height: 100% !important;
+      }
+      
+    }

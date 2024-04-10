@@ -1,0 +1,7 @@
+/*Homepage css*/
+
+.homePage {
+    /* background: rgb(241, 247, 251); */
+    /* background: linear-gradient(to right, rgb(241, 247, 251) 0%, rgb(170, 164, 164) 100%); */
+    min-height: 100dvh;
+}

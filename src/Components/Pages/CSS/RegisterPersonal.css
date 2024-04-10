@@ -1,0 +1,44 @@
+/* registerPersonal */
+
+.register{
+    display: flex;
+    place-content: center;
+    align-items: center;
+    
+}
+.registerForm{
+    /* background: black; */
+box-shadow: 2px 3px 6px 4px grey ;
+    border-radius: 20px;
+    box-sizing: content-box;
+}
+.title{
+    color: rgb(63, 36, 36);
+}
+
+@media screen and (width<600px) {
+    .register .registerForm{
+        width: 78dvw !important;
+        margin: 20px 0px 20px 0px;
+        border-radius: 15px;
+    }
+    
+}
+@media screen and (width<950px) and (width>600px){
+    .register .registerForm{
+        width: 65dvw !important;
+        margin: 20px 0px 20px 0px;
+        border-radius: 15px;
+    }
+    
+}
+
+#regBtn{
+    width: 150px;
+    font-weight: 600;
+    font-size: large;
+}
+
+.form-floating{
+    font-size: medium;
+}

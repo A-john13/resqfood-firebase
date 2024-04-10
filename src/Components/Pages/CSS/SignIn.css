@@ -1,0 +1,169 @@
+/* signIn */
+
+
+.form-switch .form-check-input{
+    margin-left: 0.5em !important; 
+}
+
+.signInBox{
+    min-height: 100dvh;
+    width: 100dvw;
+    place-content: center !important;
+    text-align: center;
+    background-image: linear-gradient(to bottom, rgba(228, 217, 158, 0.5), transparent), url('/loginBG.jpg');
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+
+.signInContainer{
+    padding: 25px;
+    width: 35dvw !important;
+    place-content: center !important;
+    border-radius: 20px;
+    border: 5px solid rgb(255, 255, 255);
+    box-shadow: #f7f7f7 0px 10px 10px -5px;
+    background: linear-gradient(to left bottom, rgb(228, 217, 158) 25%, rgb(161, 175, 192)) !important;
+
+ }
+.signInForm{
+    padding: 15px;
+    width: 85%;
+    place-content: center !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+ 
+    
+@media screen and (width<1100px)  {
+    .signInBox .signInContainer {
+        width: 45dvw !important;
+        min-height: 60dvh;
+    }
+  }   
+  @media screen and (width<600px)  {
+    .signInBox .signInContainer {
+        width: 75vw !important;
+        min-height: 60dvh;
+    }
+  }
+   .signInBox .checkbox-title,.form-check-label{
+    font-weight: bold;
+
+   }
+   .form-switch{
+    width: min-content;
+    
+   }
+   .form-check-label, .form-check-input{
+    width: auto;
+    padding: 0%;
+   }
+  
+  .heading2 {
+    text-align: center;
+    font-weight: 900;
+    font-size: 30px;
+    color: rgb(16, 137, 211);
+  }
+  
+  .form2 {
+    margin-top: 20px;
+    
+  }
+  .changeForm2{
+    font-size: large;
+    font-weight: 700;
+    color: rgb(48, 19, 19);
+    }
+    .signInBox  .input {
+    width: 90%;
+    background: rgb(255, 255, 255);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: #3a4042 0px 10px 10px -5px;
+    border-inline: 2px solid transparent;
+    color: rgb(26, 2, 2);
+  }
+  .signInBox .eyelash{
+    height: 24px;
+  }
+  
+  .signInBox  .forgot-password2 {
+    display: block;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  
+  .signInBox  .forgot-password a {
+    font-size: 13px;
+    color: #0099ff;
+    text-decoration: none;
+  }
+  
+  .signInBox  .signup-button2, .login-button2{
+    width: 75% !important;
+    height: 40px;
+    font-weight: bold !important;
+    background: linear-gradient(45deg, rgb(16, 137, 211) 0%, rgb(22, 52, 151) 100%) !important;
+    color: white;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .signInBox  .login-button2:hover, .signup-button2:hover {
+    transform: scale(1.03);
+    background: linear-gradient(225deg, rgb(16, 137, 211) 0%, rgb(22, 52, 151) 100%) !important;
+
+  }
+  
+  .signInBox .social-account-container {
+    margin: 5px 0px 5px 0px;
+  }
+  
+  .signInBox .social-account-container .social-accounts {
+    width: 100%;
+    gap: 15px;
+    margin-top: 5px;
+  }
+  
+  .signInBox .social-account-container .social-accounts .social-button {
+    background: linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(112, 112, 112) 100%) !important;
+    border: 5px solid white;
+    padding: 5px;
+    border-radius: 50%;
+    width: 40px;
+    aspect-ratio: 1;
+    display: grid;
+    place-content: center;
+    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 12px 10px -8px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .signInBox .social-account-container .social-accounts .social-button .svg {
+    fill: white;
+    margin: auto;
+  }
+  
+  .signInBox  .social-account-container .social-accounts .social-button:hover {
+    transform: scale(1.2);
+  }
+  
+  .signInBox  .social-account-container .social-accounts .social-button:active {
+    transform: scale(0.9);
+  }
+  
+  .signInBox .changeForm {
+    text-align: center;
+    margin-top: 15px;
+    text-decoration: none !important;
+    color: #341564;
+    font-weight: 500;
+  }
+  

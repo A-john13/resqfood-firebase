@@ -1,0 +1,40 @@
+/* donationForm */
+
+
+.donationForm{
+    width: 100dvw;
+    min-height: 100dvh;
+    justify-content: center;
+}
+
+.donationFormContainer{
+    width: 55% !important;
+    /* outline: 7px solid grey; */
+    box-shadow: 2px 3px 6px 4px grey ;
+    background: linear-gradient(to left bottom, rgb(228, 217, 158) 25%, rgb(161, 175, 192)) !important;
+    border-radius: 20px;
+}
+.title{
+    color: rgb(63, 36, 36);
+}
+.form-floating{
+    font-size: medium;
+}
+.donatBTN{
+    font-weight: 500 !important;
+    width: 90%;
+    height:max-content;
+    background: linear-gradient(45deg, rgb(16, 137, 211) , rgb(22, 52, 151)) !important;
+}
+.donatBTN:hover{
+    transform: scale(1.03);
+    background: linear-gradient(225deg, rgb(16, 137, 211) 0%, rgb(22, 52, 151) 100%) !important;
+
+}
+@media screen and (width<600px) {
+    
+    .donationFormContainer{
+        width: 88% !important;
+    }
+    
+}
