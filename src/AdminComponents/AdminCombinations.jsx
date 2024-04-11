@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useFirebaseCRUD from "../Config/firebaseCRUD";
 import Table from 'react-bootstrap/Table'
+import Button from 'react-bootstrap/Button'
 
 import './CSS/AdminCombinations.css'
 const AdminInterface = () => {
@@ -32,11 +33,14 @@ const AdminInterface = () => {
     // Close edit modal
     closeEditModal();
   };
+  const approve =()=> {
+    console.log("approved");
+  }
 
   return (
     <div className="p-3 possbileMatches">
       <h1>Admin Interface</h1>
-      <Table className="possibleMatchesTable" variant="secondary" style={{width:'75dvw'}}>
+      <Table className="possibleMatchesTable" variant="secondary" style={{width:'75dvw'}} striped  hover bordered>
         <thead>
           <tr>
             <th>Donation Name</th>
@@ -83,7 +87,12 @@ const AdminInterface = () => {
                   {item.requestData.district}
                 </td>
                 <td>
-                  <button onClick={() => openEditModal(item)}>Edit</button>
+                <Button style={{ background: "red",color:'black',fontWeight:'bold', width: "95%" }} 
+                onClick={() => openEditModal(item)}>Edit</Button>
+                </td>
+                <td>
+                <Button style={{ background: "springgreen",color:'black',fontWeight:'bold', width: "95%" }} 
+                onClick={() => approve(item)}>Approve</Button>
                 </td>
               </tr>
             </>
