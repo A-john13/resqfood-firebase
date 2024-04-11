@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import useFirebaseCRUD from "../Config/firebaseCRUD";
+import Table from 'react-bootstrap/Table'
 
+import './CSS/AdminCombinations.css'
 const AdminInterface = () => {
   const [matchedData, setMatchedData] = useState([]);
   const { fetchPossibleMatches } = useFirebaseCRUD();
@@ -32,9 +34,9 @@ const AdminInterface = () => {
   };
 
   return (
-    <div>
+    <div className="p-3 possbileMatches">
       <h1>Admin Interface</h1>
-      <table>
+      <Table className="possibleMatchesTable" variant="secondary" style={{width:'75dvw'}}>
         <thead>
           <tr>
             <th>Donation Name</th>
@@ -42,7 +44,6 @@ const AdminInterface = () => {
             <th>Donation Status</th>
             <th>Request Status</th>
             <th>Date Donationg</th>
-            <th>Meal Type</th>
             <th>Quantity Donating</th>
             <th>Requested Quantity</th>
             <th>District</th>
@@ -53,36 +54,33 @@ const AdminInterface = () => {
         <tbody>
           {matchedData.map((item) => (
             <>
-              <tr key={item.index}>
+              <tr key={item.id}>
                 <td>
-                  <strong>{item.donationData.fullName}</strong>
+                  {item.donationData.fullName}
                 </td>
                 <td>
-                  <strong> {item.requestData.fullName}</strong>
+                   {item.requestData.fullName}
                 </td>
                 <td>
-                  <strong>{item.donationData.status}</strong>
-                </td>
-
-                <td>
-                  <strong>{item.requestData.status}/</strong>
+                  {item.donationData.status}
                 </td>
 
                 <td>
-                  <strong>{item.donationData.dateDonating}</strong>
-                </td>
-                <td>
-                  <strong>{item.donationData.mealType}/</strong>
-                </td>
-                <td>
-                  <strong>{item.donationData.qtyDonating}/</strong>
+                  {item.requestData.status}
                 </td>
 
                 <td>
-                  <strong>{item.requestData.requiredQty}/</strong>
+                  {item.donationData.dateDonating}
                 </td>
                 <td>
-                  <strong>{item.requestData.District}/</strong>
+                  {item.donationData.qtyDonating}
+                </td>
+
+                <td>
+                  {item.requestData.requiredQty}
+                </td>
+                <td>
+                  {item.requestData.district}
                 </td>
                 <td>
                   <button onClick={() => openEditModal(item)}>Edit</button>
@@ -91,7 +89,7 @@ const AdminInterface = () => {
             </>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       {isEditModalOpen && (
         <EditModal
@@ -107,22 +105,22 @@ const AdminInterface = () => {
 export default AdminInterface;
 
 // <td>
-// <strong>Expiration Time:</strong>{" "}
+// Expiration Time:{" "}
 // {item.requestData.ExpirationTime}
 // </td>
 
 // <td>
-// <strong>Pin Code:</strong> {item.requestData.pinCode}
+// Pin Code: {item.requestData.pinCode}
 // </td>
 //    <td>
-//       <strong>Donating Street:</strong>{" "}
+//       Donating Street:{" "}
 //       {item.requestData.Donating_Street}
 //    </td>
 //     <td>
-//       <strong>Alternate Phone:</strong>{" "}
+//       Alternate Phone:{" "}
 //       {item.requestData.alternatePhone}
 //    </td>
 //     <td>
-//       <strong>Donation Address:</strong>{" "}
+//       Donation Address:{" "}
 //       {item.requestData.Donation_Address}
 //    </td>
