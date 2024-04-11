@@ -11,15 +11,16 @@ const Notifications = () => {
   const [show, setShow] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
-  Notifications.handleShow = () => setShow(true);
+  Notifications.handleShow = () => setShow(!show);
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const notifications = await getNotifications(UID);
+      setNotifications(notifications);
+      console.log(notifications);
+    };
+    fetchNotifications();
+  }, [UID]);
 
-  // useEffect(() => {
-  //   // Fetch notifications when component mounts
-  //   getNotifications(UID, userRole);
-  //   // .then((notifications) => {
-  //   //   setNotifications(notifications);
-  //   // });
-  // }, [UID, userRole, getNotifications]);
 
   const handleClose = () => setShow(false);
 
@@ -30,13 +31,14 @@ const Notifications = () => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         {notifications.map((notification, index) => (
-          <Toast key={index} onClose={handleClose}>
-            <Toast.Header>
-              <strong className="me-auto">{notification.title}</strong>
-              <small>11 mins ago</small>
-            </Toast.Header>
-            <Toast.Body>{notification.message}</Toast.Body>
-          </Toast>
+          <Toast className='mt-1' key={index} onClose={handleClose} style={{ background: notification.status === 0 ? 'black' : 'grey' }}>
+          <Toast.Header>
+            <strong className="me-auto">{notification.message}</strong>
+          </Toast.Header>
+          <Toast.Body>
+            {notification.status === 0 ? 'Unread' : 'Read'}
+          </Toast.Body>
+        </Toast>
         ))}
       </Offcanvas.Body>
     </Offcanvas>

@@ -16,7 +16,11 @@ Org_DATA -orgName,orgAddress,orgDistrict,orgPincode,orgEmail,orgPhone,orgProof
 /user/signup/initialform
 
 /user/role/adminDash
-    return { addUserData, addOrgData, addReqDonat, getUserData,
-      getReqsData, getDonatData, getNotifications, PostNotifications,
-      fetchDonations,fetchRequests,fetchUsers, fetchUserData,fetchUserDetails,
-      getDataById, getAllData };
+    addUserData, addOrgData, addReqDonat, 
+      getUserData,getOrgUserData,
+      getReqsData, getDonatData, 
+      getNotifications, PostNotifications,createCombinationApprovalNotification,
+      fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
+      fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
+      createCombination,fetchCombination,updateCombination,
+      getDataById, getAllData 

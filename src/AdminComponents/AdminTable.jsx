@@ -73,7 +73,7 @@ export default AdminTable;
 export const UserTable =( {data} )=>{
   const firebase = useFirebase();
   const db =getFirestore();
-  const {fetchUserDetails} =useFirebaseCRUD();
+  const {fetchUserDetails,PostNotifications} =useFirebaseCRUD();
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -105,6 +105,7 @@ console.log(userDatas);
       await updateDoc(docRef, {
         adminVerifyDetails: true,
       });
+      const notif = await PostNotifications(uid,null,null,"Your Account is now verified")
       setShowAlert(true);
       handleCloseModal();
     } else {

@@ -31,7 +31,7 @@ const AdminDash = () => {
       setReqsUserData(fetchedReqsUserData);
 
       const details =  await fetchUserDetails();
-      console.log(details)
+      // console.log(details)
       setUserDatas(details);
     };
 

@@ -42,7 +42,7 @@ const ReqForm = () => {
   recipientID:UID,
   status:0,
   adminVerify:false,
-  createdAt:time   });
+  createdAt:'' });
 
   const handleChange = (event) => {
     const { name, value } = event.target;

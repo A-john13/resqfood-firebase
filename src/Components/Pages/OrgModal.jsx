@@ -23,15 +23,21 @@ const OrgModal = () => {
     orgPincode: "",
     representID: UID,
     orgRole: userRole,
+    createdAT:'',
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value  } = e.target;
+    if (name === 'orgProof') {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: e.target.files[0]
+      }));
+    }  else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file.size > 1000000 || (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
@@ -52,6 +58,8 @@ const OrgModal = () => {
     try {
       console.log("try");
       const id = await addOrgData(formData, formData.orgProof);
+      event.preventDefault();
+      return id;
     } catch (error) {
       console.error("Error adding organization:", error);
     }

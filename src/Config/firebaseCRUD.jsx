@@ -44,7 +44,7 @@ const useFirebaseCRUD = () => {
             }
     
             const docRef = await addDoc(collection(db,`Org_DATA`), data);
-            alert("Thankyou for your valuable donation, we'll notify you soon");
+            alert("Thankyou");
             nav('/home');
             return docRef.id;
         } catch (error) {
@@ -55,7 +55,11 @@ const useFirebaseCRUD = () => {
     //Request and donatios Data
     const addReqDonat = async (collectionName,data) => {
         try {
-            const docRef = await addDoc(collection(db,`${collectionName}`), data);
+          const newData = {
+            ...data,
+            createdAt: serverTimestamp(),
+          };
+            const docRef = await addDoc(collection(db,`${collectionName}`), newData);
             alert("THANkYOU, we'll get back to you!");
             nav("/home");
             return docRef.id;
@@ -132,26 +136,57 @@ const getReqsData = async (uid) => {
 };
   
 //notifications
-const getNotifications =()=>{
+const getNotifications = async (uid) =>{
   console.log("in gett notif")
-  // try{
-  //   console.log("in get notif")
+  const notificationsRef = collection(db, 'NOTIFICATIONS');
+  const notificationsQuery = query(notificationsRef, where('userId', '==', uid));
+  const notificationsSnapshot = await getDocs(notificationsQuery);
 
-  // }
-  // catch(error){
-  //   console.log(error,"error in notify");
-  // }
-}
-const PostNotifications =()=> {
+  const notifications = [];
+  notificationsSnapshot.forEach((doc) => {
+    notifications.push({ id: doc.id, ...doc.data() });
+  });
+  for (const notification of notifications) {
+    const docRef = doc(db, 'NOTIFICATIONS', notification.id);
+    await updateDoc(docRef, { status: 1 });
+  };
+  return notifications;
+};
+
+const PostNotifications = async ( userId, donationId, requestId, message) => {
   console.log("in post notif")
-  // try{
+    try {
+        const notificationRef = await addDoc(collection(db, 'NOTIFICATIONS'), {
+            userId,
+            donationId,
+            requestId,
+            message,
+            timestamp: serverTimestamp(),
+            status:0,
+        });
+        console.log("Notification created with ID: ", notificationRef.id);
+    } catch (error) {
+        console.error("Error creating notification: ", error);
+    }
+};
 
-   
-  // }
-  // catch(error){
-  //   console.log("error in sending notifications");
-  // }
-}
+//combinatioi notfification
+const createCombinationApprovalNotification = async (userId, requesterUserId, donationId, requestId, message) => {
+  try {
+      const notificationRef = await addDoc(collection(db, 'NOTIFICATIONS'), {
+          type: "combination_approval",
+          userId,
+          requesterUserId,
+          donationId,
+          requestId,
+          message,
+          timestamp: serverTimestamp(),
+      });
+      console.log("Notification created with ID: ", notificationRef.id);
+  } catch (error) {
+      console.error("Error creating notification: ", error);
+  }
+};
 
 
     const getDataById = async (collectionName, id) => {
@@ -378,7 +413,7 @@ const getGroupByDistrict = async () => {
     return { addUserData, addOrgData, addReqDonat, 
       getUserData,getOrgUserData,
       getReqsData, getDonatData, 
-      getNotifications, PostNotifications,
+      getNotifications, PostNotifications,createCombinationApprovalNotification,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
       createCombination,fetchCombination,updateCombination,
