@@ -33,10 +33,14 @@ const AdminInterface = () => {
     // Close edit modal
     closeEditModal();
   };
-  const approve =()=> {
-    console.log("approved");
-  }
+  const approve =async (donationId, requestId) => {
+    const donationRef = doc(db, "DONATs", donationId);
+    await updateDoc(donationRef, { status: 1 });
+    const requestRef = doc(db, "REQs", requestId);
+    await updateDoc(requestRef, { status: 1 });
+  };
 
+  
   return (
     <div className="p-3 possbileMatches">
       <h1>Admin Interface</h1>
