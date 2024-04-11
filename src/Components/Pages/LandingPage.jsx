@@ -10,6 +10,9 @@ const LandingPage = () => {
 
   return (
     <Container className="m-5 px-5 landing-page">
+      <>
+      
+      </>
       <Container className='content'>
       <Row>
         <Col>
@@ -33,6 +36,14 @@ const LandingPage = () => {
             <Button className="xm-3 getStarted" style={{width:"40%"}} onClick={ () => nav("/")}>Learn More</Button>
             
         </Row>
+
+              <Container  className='d-flex  justify-content-center carousel'>
+      <Row >
+        <Col>
+        <LandingCarousel/>
+        </Col> 
+      </Row>
+      </Container>
       <Row>
         <Col>
           <h2 className="subheadings">Our Mission</h2>
@@ -45,13 +56,7 @@ const LandingPage = () => {
           <p className="p">You can help by donating excess food from events like weddings and engagements. By notifying us early, we can ensure that no food goes to waste.</p>
         </Col>
       </Row>
-      <Container  className='d-flex  justify-content-center carousel'>
-      <Row >
-        <Col>
-        <LandingCarousel/>
-        </Col> 
-      </Row>
-      </Container>
+
 
     </Container>
     </Container>

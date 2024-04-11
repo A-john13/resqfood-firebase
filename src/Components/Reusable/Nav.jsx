@@ -42,8 +42,8 @@ const NavBar = () => {
     };
   
     return (
-      <div className="p-0 m-0 container-fluid  navBarComponent" style={{width:'90dvw',placeContent:'start'}}>
-      <Navbar  expand="sm" style={{fontWeight:'500', }}>
+      <div className="p-0 m-0 container-fluid navBarComponent" style={{width:'100dvw',placeContent:'center',alignSelf:'center',borderBottom:'crimson' ,border:'20px'}}>
+      <Navbar  expand="sm" style={{fontWeight:'500',}}>
         <Navbar.Brand as={Link} to="/home">
           <img
             src="/Logo.png"

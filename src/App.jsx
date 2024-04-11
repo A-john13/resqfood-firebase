@@ -15,6 +15,7 @@ import RecipientProfile from './Components/Pages/RecipientProfile'
 
 import AdminDash from './AdminComponents/AdminDash'
 import Reports from './AdminComponents/AdminReports'
+import Deny1 from './Config/deny/Deny1'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
@@ -33,6 +34,7 @@ function App() {
 
         
         <Route path="/1" element={ <AutomaticMatching/> }/>
+        <Route path="/deny1" element={ <Deny1/> }/>
         <Route path='/user/role/adminDash/posibleMatches' element={ <AdminInterface/>}/>
         <Route path="/w" element={ <Reports2/> }/>
         <Route path="/r" element={ <Reports/> }/>

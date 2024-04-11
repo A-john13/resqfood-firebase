@@ -16,7 +16,7 @@ const Home = () => {
          const firebase=useFirebase();
   return (
     <div className='homePage'>
-        <Container fluid className="p-0 m-0 navBar"  style={{width:'99dvw'}}>
+        <Container fluid className="p-0 m-0 navBar"  style={{width:'100dvw'}}>
             <NavBar userType={() => {}}/>
         </Container>
 
