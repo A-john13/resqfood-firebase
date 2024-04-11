@@ -33,7 +33,7 @@ function App() {
 
         
         <Route path="/1" element={ <AutomaticMatching/> }/>
-        <Route path='/2' element={ <AdminInterface/>}/>
+        <Route path='/user/role/adminDash/posibleMatches' element={ <AdminInterface/>}/>
         <Route path="/w" element={ <Reports2/> }/>
         <Route path="/r" element={ <Reports/> }/>
 

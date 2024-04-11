@@ -411,9 +411,17 @@ const getGroupByDistrict = async () => {
 const fetchPossibleMatches = async () => {
   const donationsRef = collection(db, 'DONATs');
   const reqsRef = collection(db, 'REQs');
+  const usersRef = collection(db, 'USER_DATA');
 
-  const donationsSnapshot = await getDocs(donationsRef);
-  const reqsSnapshot = await getDocs(reqsRef);
+  const [donationsSnapshot, reqsSnapshot, usersSnapshot] = await Promise.all([
+    getDocs(donationsRef),
+    getDocs(reqsRef),
+    getDocs(usersRef)
+  ]);
+  const userData = [];
+  usersSnapshot.forEach((userDoc) => {
+    userData.push({ uid: userDoc.id, ...userDoc.data() });
+  });
 
   const possibleMatches = [];
 
@@ -424,13 +432,22 @@ const fetchPossibleMatches = async () => {
       const donationDistrict = donationDoc.data().district;
       const reqDistrict = reqDoc.data().district;
       const qtyDifference = Math.abs(donationQty - reqQty);
-      
+
+      // Match the district and check the quantity difference
       if (donationDistrict === reqDistrict && (qtyDifference === 0 || qtyDifference <= 4)) {
+        // Get the user data for both donor and recipient
+        const donorId = donationDoc.data().donorID;
+        const recipientId = reqDoc.data().recipientID;
+
+        // Fetch user data for the donor and recipient
+        const donorData = userData.find(user => user.uid === donorId);
+        const recipientData = userData.find(user => user.uid === recipientId);
+
         possibleMatches.push({
           donationId: donationDoc.id,
-          donationData: donationDoc.data(),
-          requestId: reqDoc.id,
-          requestData: reqDoc.data()
+          donationData: { ...donationDoc.data(),...donorData },
+          requestId: recipientId,
+          requestData: { ...reqDoc.data(), ...recipientData }
         });
       }
     });
