@@ -407,6 +407,39 @@ const getGroupByDistrict = async () => {
 
 
 
+// possuble matches
+const fetchPossibleMatches = async () => {
+  const donationsRef = collection(db, 'DONATs');
+  const reqsRef = collection(db, 'REQs');
+
+  const donationsSnapshot = await getDocs(donationsRef);
+  const reqsSnapshot = await getDocs(reqsRef);
+
+  const possibleMatches = [];
+
+  donationsSnapshot.forEach((donationDoc) => {
+    reqsSnapshot.forEach((reqDoc) => {
+      const donationQty = donationDoc.data().qtyDonating;
+      const reqQty = reqDoc.data().requiredQty;
+      const donationDistrict = donationDoc.data().district;
+      const reqDistrict = reqDoc.data().district;
+      const qtyDifference = Math.abs(donationQty - reqQty);
+      
+      if (donationDistrict === reqDistrict && (qtyDifference === 0 || qtyDifference <= 4)) {
+        possibleMatches.push({
+          donationId: donationDoc.id,
+          donationData: donationDoc.data(),
+          requestId: reqDoc.id,
+          requestData: reqDoc.data()
+        });
+      }
+    });
+  });
+
+  return possibleMatches;
+};
+
+
 
     
   
@@ -415,6 +448,7 @@ const getGroupByDistrict = async () => {
       getReqsData, getDonatData, 
       getNotifications, PostNotifications,createCombinationApprovalNotification,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
+      fetchPossibleMatches,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
       createCombination,fetchCombination,updateCombination,
       getDataById, getAllData };

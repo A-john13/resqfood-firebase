@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import useFirebaseCRUD from '../Config/firebaseCRUD';
 
 const AdminInterface = () => {
     const [matchedData, setMatchedData] = useState([]);
+    const {fetchPossibleMatches ,} = useFirebaseCRUD();
     const [selectedItem, setSelectedItem] = useState(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     useEffect(() => {
-        // Fetch matched donations and requests data from your database
         const fetchData = async () => {
-            // Fetch matched data
-            // setMatchedData(matchedDataFromDatabase);
+            const matches = await fetchPossibleMatches();
+            setMatchedData(matches);
+            
         };
-
+        console.log(matchedData);
         fetchData();
     }, []);
-
     const openEditModal = (item) => {
         setSelectedItem(item);
         setIsEditModalOpen(true);

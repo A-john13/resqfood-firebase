@@ -117,7 +117,7 @@ const AdminDash = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="p-4" as={Link} to="#">
+                <Nav.Link className="p-4" as={Link} to="/user/role/adminDash/posibleMatches">
                   Combinations
                 </Nav.Link>
               </Nav.Item>

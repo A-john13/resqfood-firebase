@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 
 import AutomaticMatching from './AdminComponents/AutoMatching'
+import AdminInterface from './AdminComponents/AdminCombinations'
 import Reports2 from './AdminComponents/repor'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
 
         
         <Route path="/1" element={ <AutomaticMatching/> }/>
+        <Route path='/2' element={ <AdminInterface/>}/>
         <Route path="/w" element={ <Reports2/> }/>
         <Route path="/r" element={ <Reports/> }/>
 
@@ -44,6 +46,8 @@ function App() {
         <Route path="/user/request" element={ <ReqForm/> }/>
         <Route path="/user/signup/initialForm" element={ <RegisterPersonal/> }/>
         <Route path="/user/orgForm" element={ <OrgModal/> }/>
+
+
 
       </Routes>
     </div>
