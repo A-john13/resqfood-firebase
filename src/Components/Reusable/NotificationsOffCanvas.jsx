@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import Toast from 'react-bootstrap/Toast';
-import useFirebaseCRUD from '../../Config/firebaseCRUD';
-import { useFirebase } from '../../Config/firebase';
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import Toast from "react-bootstrap/Toast";
+import useFirebaseCRUD from "../../Config/firebaseCRUD";
+import { useFirebase } from "../../Config/firebase";
 
-const Notifications = () => {
+const Notifications = ({ show, handleClose }) => {
   const { UID, userRole } = useFirebase();
   const { getNotifications } = useFirebaseCRUD();
-  const [show, setShow] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
-  Notifications.handleShow = () => setShow(!show);
   useEffect(() => {
     const fetchNotifications = async () => {
       const notifications = await getNotifications(UID);
@@ -22,8 +20,6 @@ const Notifications = () => {
   }, [UID]);
 
 
-  const handleClose = () => setShow(false);
-
   return (
     <Offcanvas show={show} onHide={handleClose}>
       <Offcanvas.Header closeButton>
@@ -31,14 +27,20 @@ const Notifications = () => {
       </Offcanvas.Header>
       <Offcanvas.Body>
         {notifications.map((notification, index) => (
-          <Toast className='mt-1' key={index} onClose={handleClose} style={{ background: notification.status === 0 ? 'black' : 'grey' }}>
-          <Toast.Header>
-            <strong className="me-auto">{notification.message}</strong>
-          </Toast.Header>
-          <Toast.Body>
-            {notification.status === 0 ? 'Unread' : 'Read'}
-          </Toast.Body>
-        </Toast>
+          <Toast
+            className="mt-1"
+            key={index}
+            onClose={handleClose}
+            style={{
+              background: notification.status === 0 ? "orangered" : "grey",
+            }}>
+            <Toast.Header>
+              <strong className="me-auto">{notification.message}</strong>
+            </Toast.Header>
+            <Toast.Body>
+              {notification.status === 0 ? "Unread" : null}
+            </Toast.Body>
+          </Toast>
         ))}
       </Offcanvas.Body>
     </Offcanvas>

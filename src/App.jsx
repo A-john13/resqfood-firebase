@@ -34,7 +34,7 @@ function App() {
 
         
         <Route path="/1" element={ <AutomaticMatching/> }/>
-        <Route path="/deny1" element={ <Deny1/> }/>
+        <Route path="/deny" element={ <Deny1/> }/>
         <Route path='/user/role/adminDash/posibleMatches' element={ <AdminInterface/>}/>
         <Route path="/w" element={ <Reports2/> }/>
         <Route path="/r" element={ <Reports/> }/>
@@ -47,7 +47,7 @@ function App() {
         <Route path="/user/donate" element={ <DonationForn/> }/>
         <Route path="/user/request" element={ <ReqForm/> }/>
         <Route path="/user/signup/initialForm" element={ <RegisterPersonal/> }/>
-        <Route path="/user/orgForm" element={ <OrgModal/> }/>
+        <Route path="/user/signup/orgForm" element={ <OrgModal/> }/>
 
 
 

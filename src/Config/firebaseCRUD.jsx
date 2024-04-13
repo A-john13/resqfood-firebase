@@ -16,13 +16,13 @@ const useFirebaseCRUD = () => {
     const storage = getStorage(firebaseApp);
   
     // useData
-    const addUserData = async (data,proof) => {
+    const addUserData = async (data,proof,latitud,longitud) => {
       try {
         // upload image
         const storageRef = ref(storage, `proofs/${proof.name}-${Date.now()}`);
         await uploadBytes(storageRef, proof);
         const downloadURL = await getDownloadURL(storageRef);
-        const userData = { ...data, proof: downloadURL };
+        const userData = { ...data, proof: downloadURL,latitude:latitud,longitude:longitud, };
         await setDoc(doc(db, 'USERS', UID), { name: data.firstName }, { merge: true });
         const docRef = await addDoc(collection(db, `USER_DATA`), userData);
         return docRef.id;
@@ -40,7 +40,7 @@ const useFirebaseCRUD = () => {
                 const storageRef = ref(storage, `proofs/${OrgProof.name}-${Date.now()}`);
                 await uploadBytes(storageRef, data.orgProof);
                 const downloadURL = await getDownloadURL(storageRef);
-                data = { ...data, orgProof: downloadURL };
+                data = { ...data, orgProof: downloadURL,createdAt:serverTimestamp() };
             }
     
             const docRef = await addDoc(collection(db,`Org_DATA`), data);

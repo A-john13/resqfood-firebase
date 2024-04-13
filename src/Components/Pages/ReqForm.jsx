@@ -11,32 +11,14 @@ const ReqForm = () => {
   const firebase = useFirebase();
     const {UID} = useFirebase();
     const { addReqDonat } = useFirebaseCRUD();
-    // const [totalDonations, setTotalDonations] = useState(0);
-    // const [upcomingDonations, setUpcomingDonations] = useState(0);
-    // const [pastDonations, setPastDonations] = useState(0);
-
-  //   useEffect(() => {
-  //   getReqsData(UID)
-  //   .then(userData => {
-  //       if (userData) {
-  //       console.log('User data:', userData);
-  //       const total = userData.length;
-  //         const upcoming = userData.filter(donation => donation.adminVerify && donation.status === 0).length;
-  //         const past = userData.filter(donation => donation.adminVerify && donation.status === 1).length;
-  //         setTotalDonations(total);
-  //         setUpcomingDonations(upcoming);
-  //         setPastDonations(past);
-  //       console.log('Total Donations:', totalDonations);
-  //       console.log('Upcoming Donations:', upcomingDonations);
-  //       console.log('Past Donations:', pastDonations);
-  //       }
-  //   }).catch((error) => {
-  //       console.error('Error fetching user data:', error);
-  //     });
-  // }, [UID, getReqsData]);
+    
 
   const time = new Date().toISOString().replace("T", " ").split(".")[0]
-
+  const districts = [
+    'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
+    'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode',
+    'Wayanad', 'Kannur', 'Kasaragod'
+  ];
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
   recipientID:UID,
@@ -58,6 +40,9 @@ const ReqForm = () => {
 
     if (form.checkValidity() === false) {
       return;
+    } else if (formData.district===''){
+      event.preventDefault();
+      event.stopPropagation();
     }
 
     try {
@@ -113,6 +98,23 @@ const ReqForm = () => {
                 <Form.Control.Feedback type="invalid">Provide your personal valid address</Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>
+          </Col>
+          <Col>
+          <FloatingLabel>
+          <Form.Control
+                  as="select"
+                  name="district"
+                  value={formData.district}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter district"
+                > <option value=''>Select District</option>
+                {districts.map((district) => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+               <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
+         </Form.Control>
+          </FloatingLabel>
           </Col>
           </Row>
         

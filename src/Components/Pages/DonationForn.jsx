@@ -25,6 +25,11 @@ const DonationForn = () => {
     createdAt: time,
     status: 0,
   });
+  const districts = [
+    'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
+    'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode',
+    'Wayanad', 'Kannur', 'Kasaragod'
+  ];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -42,13 +47,15 @@ const DonationForn = () => {
       return;
     }
     
-  // Check if all required fields have values
   const requiredFields = ["mealType", "Donation_Address", "district", "qtyDonating", "dateDonating", "ExpirationTime"];
   const hasEmptyRequiredFields = requiredFields.some(field => !formData[field]);
 
   if (hasEmptyRequiredFields) {
     alert("Please fill in all required fields.");
     return;
+  } else if (formData.district===''){
+    event.preventDefault();
+    event.stopPropagation();
   }
 
     try {
@@ -112,16 +119,19 @@ const DonationForn = () => {
             <Col md className="m-0">
               <Form.Group className="mb-4">
                 <FloatingLabel label="District">
-                  <Form.Control
-                    onChange={handleChange}
-                    type="text"
-                    name="district"
-                    placeholder="District"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Provide a valid District name
-                  </Form.Control.Feedback>
+                <Form.Control
+                  as="select"
+                  name="district"
+                  value={formData.district}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter district"
+                > <option value=''>Select District</option>
+                {districts.map((district) => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+               <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
+               </Form.Control>
                 </FloatingLabel>
               </Form.Group>
             </Col>

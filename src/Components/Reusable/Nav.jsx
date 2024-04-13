@@ -11,9 +11,9 @@ import { useFirebase } from "../../Config/firebase";
 const NavBar = () => {
 
     const firebase = useFirebase();
-    const {userRole} = useFirebase();
+    const {userRole,UID,user} = useFirebase();
     const nav=useNavigate();
-
+    const [showNotifications, setShowNotifications] = useState(false);
     const out =() =>{
       firebase.SignOut();
       nav('/');
@@ -24,16 +24,14 @@ const NavBar = () => {
           return (
             <>
               <Nav.Link as={Link} to="/user/donate">Make Donation</Nav.Link>
-              <Nav.Link onClick={Notifications.handleShow}>Notifications</Nav.Link>
-              <Nav.Link as={Link} to="/user/role/donprofile">Profile</Nav.Link>
+              <Nav.Link onClick={() => setShowNotifications(!showNotifications)}>Notifications</Nav.Link>              <Nav.Link as={Link} to="/user/role/donprofile">Profile</Nav.Link>
             </>
           );
         case "2":
           return (
             <>
               <Nav.Link as={Link} to="/user/request">Make Request</Nav.Link>
-              <Nav.Link onClick={Notifications.handleShow}>Notifications</Nav.Link>
-              <Nav.Link as={Link} to="/user/role/reciprofile">Profile</Nav.Link>
+              <Nav.Link onClick={() => setShowNotifications(!showNotifications)}>Notifications</Nav.Link>              <Nav.Link as={Link} to="/user/role/reciprofile">Profile</Nav.Link>
             </>
           );
         default:
@@ -42,8 +40,8 @@ const NavBar = () => {
     };
   
     return (
-      <div className="p-0 m-0 container-fluid navBarComponent" style={{width:'100dvw',placeContent:'center',alignSelf:'center',borderBottom:'crimson' ,border:'20px'}}>
-      <Navbar  expand="sm" style={{fontWeight:'500',}}>
+      <div className="p-0 m-0 container-fluid  navBarComponent" style={{width:'90dvw',placeContent:'start'}}>
+      <Navbar  expand="sm" style={{fontWeight:'500', }}>
         <Navbar.Brand as={Link} to="/home">
           <img
             src="/Logo.png"
@@ -61,14 +59,21 @@ const NavBar = () => {
   
           </Nav>
           <Nav>
+            { user && UID &&
             <Nav.Link className="d=flex justify-content-end align-item-end">
               <Button variant='outline-success' style={{fontWeight:'bold'}} onClick={out}> Logout </Button>
               </Nav.Link>
+          }
+          {!user &&
+            <Nav.Link className="d=flex justify-content-end align-item-end">
+              <Button variant='outline-success' as={Link}  to="/login" style={{fontWeight:'bold'}} > Log In </Button>
+              </Nav.Link>
+          }
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Notifications />
-      </div>
+      <Notifications show={showNotifications} handleClose={() => setShowNotifications(false)} /> 
+           </div>
     );
   };
   

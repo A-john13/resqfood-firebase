@@ -39,6 +39,11 @@ const RegisterPersonal = () => {
       }
   }, [latitud, longitud]);
 
+  const districts = [
+    'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
+    'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode',
+    'Wayanad', 'Kannur', 'Kasaragod'
+  ];
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -60,8 +65,7 @@ const RegisterPersonal = () => {
         if (name === 'proof') {
           setFormData((prevData) => ({
             ...prevData,
-            latitude:latitud,
-            longitude:longitud,
+
             [name]: e.target.files[0]
           }));
         } 
@@ -72,19 +76,19 @@ const RegisterPersonal = () => {
       
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
-   
-
+    
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
       
-    }
-    
-    
+    } else if (formData.orgDistrict===''){
+      event.preventDefault();
+      event.stopPropagation();
+    }    
     setValidated(true);
     try {
       event.preventDefault();
-      const id =  addUserData(formData,formData.proof);
+      const id =  addUserData(formData,formData.proof,latitud,longitud);
       console.log('Data added successfully with ID:', id);
       
       if(formData.isOrg === false){
@@ -185,8 +189,20 @@ const RegisterPersonal = () => {
             <Col md >
               <Form.Group className="mb-4">
                 <FloatingLabel label="District">
-                  <Form.Control name="district" type="text" placeholder="district" required onChange={handleChange} />
-                  <Form.Control.Feedback type="invalid">Please enter district </Form.Control.Feedback>
+                <Form.Control
+                  as="select"
+                  name="district"
+                  value={formData.district}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter district"
+                > <option value=''>Select District</option>
+                {districts.map((district) => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+                 <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
+                 <Form.Control.Feedback type="invalid">Please enter district </Form.Control.Feedback>
+                </Form.Control>
                 </FloatingLabel>
               </Form.Group>
             </Col>

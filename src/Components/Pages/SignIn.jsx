@@ -115,7 +115,7 @@ const SignIn = () => {
               <Form.Control.Feedback type="invalid">Please enter a valid email</Form.Control.Feedback>
             </FloatingLabel>
             <FloatingLabel controlId="password" label="Password">
-            <Form.Control type={showPwd ? 'password' : 'text'} name="pwd" pattern='(?=.*[a-z]).{6,}' placeholder="Password" onChange={handleChange}
+            <Form.Control type={showPwd ?  'text' : 'password'} name="pwd" pattern='(?=.*[a-z]).{6,}' placeholder="Password" onChange={handleChange}
             required/>             
              <Form.Control.Feedback type="invalid">Please enter a valid password</Form.Control.Feedback>
               <p className='showPWD' onClick={() => setShowPwd(!showPwd)}>Show {showPwd ? <FaEyeSlash style={{ height: '15px' }} /> : <FaEye />}</p>

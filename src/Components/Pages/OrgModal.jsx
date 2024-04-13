@@ -13,18 +13,26 @@ const OrgModal = () => {
   const [validated, setValidated] = useState(false);
   const [orgData,setOrgData] = useState(null);
 
+
+  const districts = [
+    'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
+    'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode',
+    'Wayanad', 'Kannur', 'Kasaragod'
+  ];
+
   const [formData, setFormData] = useState({
     orgName: "",
     orgEmail: "",
     orgPhone: "",
     orgProof: null,
     orgAddress: "",
-    orgDistrict: "",
+    orgDistrict: null,
     orgPincode: "",
     representID: UID,
     orgRole: userRole,
-    createdAT:'',
   });
+
+  
 
   const handleChange = (e) => {
     const { name, value  } = e.target;
@@ -50,13 +58,18 @@ const OrgModal = () => {
 
   const handleOrgSubmit = async (event) => {
     const form = event.currentTarget;
-    if (form.checkValidity() === false) {
+    event.preventDefault();
+    if (form.checkValidity() === false){
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    else if (formData.orgDistrict===''){
       event.preventDefault();
       event.stopPropagation();
     }
     setValidated(true);
     try {
-      console.log("try");
+      console.log(formData);
       const id = await addOrgData(formData, formData.orgProof);
       event.preventDefault();
       return id;
@@ -162,13 +175,18 @@ const OrgModal = () => {
             <Form.Group className="py-3" controlId="orgDistrict">
               <FloatingLabel label="District where organisation situated">
                 <Form.Control
-                  type="text"
+                  as="select"
                   name="orgDistrict"
                   value={formData.orgDistrict}
                   onChange={handleChange}
                   required
                   placeholder="Enter district"
-                />
+                > <option value=''>Select District</option>
+                {districts.map((district) => (
+                  <option key={district} value={district}>{district}</option>
+                ))}
+                 <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
+                </Form.Control>
               </FloatingLabel>
             </Form.Group>
 
