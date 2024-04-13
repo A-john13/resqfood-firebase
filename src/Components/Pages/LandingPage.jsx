@@ -15,9 +15,9 @@ const LandingPage = () => {
       <Container className="m-0 p-5 content">
         <Row>
           <Col>
-            <h1 className="title">ResQFood</h1>
+            <h1 className="title text-pop-up-top">ResQFood</h1>
             
-            <h1 className="title">Feeding Hope,Together</h1>
+            <h1 className="title tracking-in-expand">Feeding Hope,Together</h1>
             <h5 className="subheadings">
               Discover surplus food,Feed those in need. Join us in making a
               difference, one meal at a time.
@@ -27,16 +27,16 @@ const LandingPage = () => {
               food wastage and how you can make a difference.
             </p>
              
-        <Row className="butons">
+        <Row className="butons ">
           <Button
-            className="mx-3 getStarted"
+            className="mx-3 getStarted tracking-in-expand"
             style={{ width: "40%" }}
             onClick={() => nav("/login")}>
             Get Started
           </Button>
 
           <Button
-            className="xm-3 getStarted"
+            className="xm-3 getStarted tracking-in-expand"
             style={{ width: "40%" }}
             onClick={() => nav("/")}>
             Learn More

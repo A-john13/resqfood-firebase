@@ -3,7 +3,6 @@
 .custom-image {
     aspect-ratio: 16/10;
     height: 400px;
-  
   }
   
   @media (width< 768px) {
