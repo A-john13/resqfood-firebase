@@ -1,7 +1,29 @@
 /*Homepage css*/
 
 .homePage {
-    /* background: rgb(241, 247, 251); */
     /* background: linear-gradient(to right, rgb(241, 247, 251) 0%, rgb(170, 164, 164) 100%); */
     min-height: 100dvh;
+    place-content: center !important;
 }
+
+
+  .homePage .social-account-container .social-accounts {
+    width: 100%;
+    gap: 15px;
+  }
+  
+  .homePage .social-account-container .social-accounts .social-button {
+    background: linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(112, 112, 112) 100%) !important;
+    border: 5px solid white;
+    border-radius: 50%;
+    width: 40px;
+    aspect-ratio: 1;
+    display: grid;
+    place-content: center;
+    transition: all 0.2s ease-in-out;
+    fill: white;
+  }
+  
+  .homePage  .social-account-container .social-accounts .social-button:hover {
+    transform: scale(1.2);
+  }

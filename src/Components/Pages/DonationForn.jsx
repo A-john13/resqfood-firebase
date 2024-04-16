@@ -103,7 +103,7 @@ const DonationForn = () => {
             <Col className="m-0">
               <Form.Group className="mb-4">
                 <FloatingLabel label="Address of Pickup">
-                  <Form.Control
+                  <Form.Control className="capitalize"
                     onChange={handleChange}
                     as="textarea"
                     name="Donation_Address"

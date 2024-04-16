@@ -11,7 +11,7 @@ import './CSS/RegisterPersonal.css'
 
 const RegisterPersonal = () => {
   const firebase = useFirebase();
-  const { addUserData,getUserData } = useFirebaseCRUD();
+  const { addUserData,getUserDetails } = useFirebaseCRUD();
 
   const {user,UID,userRole} = useFirebase();
   const nav = useNavigate();
@@ -89,14 +89,14 @@ const RegisterPersonal = () => {
     try {
       event.preventDefault();
       const id =  addUserData(formData,formData.proof,latitud,longitud);
-      console.log('Data added successfully with ID:', id);
+      // console.log('Data added successfully with ID:', id);
       
       if(formData.isOrg === false){
         
       alert("Thankyou data submitted");
       }
       if(formData.isOrg === true){
-        nav('/user/orgForm');
+        nav('/user/signup/orgForm');
       }
       
     } catch (error) {
@@ -118,14 +118,14 @@ const RegisterPersonal = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userData = await getUserData(UID);
+      const userData = await getUserDetails(UID);
       setUserData(userData);
     };
     fetchUserData();
     if (userData) {
       nav('/home');
     };
-  }, [UID, getUserData]);
+  }, [UID, getUserDetails]);
 
 
   return (
@@ -145,7 +145,7 @@ const RegisterPersonal = () => {
             <Col md>
               <Form.Group className="mb-4">
                 <FloatingLabel label="First Name">
-                  <Form.Control name="firstName" type="text"  placeholder="First Name" required onChange={handleChange} />
+                  <Form.Control className="capitalize" name="firstName" type="text"  placeholder="First Name" required onChange={handleChange} />
                   <Form.Control.Feedback type="invalid">Please enter your first name  </Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
@@ -154,7 +154,7 @@ const RegisterPersonal = () => {
             <Col md>
               <Form.Group className="mb-4">
                 <FloatingLabel label="Full Name">
-                  <Form.Control name="fullName" type="text" placeholder="Fullname" required onChange={handleChange} />
+                  <Form.Control className="capitalize" name="fullName" type="text" placeholder="Fullname" required onChange={handleChange} />
                   <Form.Control.Feedback type="invalid">Please enter your full name </Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
@@ -168,7 +168,7 @@ const RegisterPersonal = () => {
             <Col md={8} >
               <Form.Group className="mb-4">
                 <FloatingLabel label="Address">
-                  <Form.Control name="address" type="textArea" placeholder="address" required onChange={handleChange} />
+                  <Form.Control className="capitalize" name="address" type="textArea" placeholder="address" required onChange={handleChange} />
                   <Form.Control.Feedback type="invalid">Please enter your address </Form.Control.Feedback>
                 </FloatingLabel>
               </Form.Group>
@@ -201,7 +201,6 @@ const RegisterPersonal = () => {
                   <option key={district} value={district}>{district}</option>
                 ))}
                  <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
-                 <Form.Control.Feedback type="invalid">Please enter district </Form.Control.Feedback>
                 </Form.Control>
                 </FloatingLabel>
               </Form.Group>

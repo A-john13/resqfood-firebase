@@ -93,8 +93,8 @@ const ReqForm = () => {
         <Row className="g-2 m-0 ">
             <Col md>
             <Form.Group className="mb-4">
-              <FloatingLabel label="Address to drop off">
-                <Form.Control onChange={handleChange} name="addressDelivery" type="text" placeholder="Address"  pattern="[A-Za-z\s]*[A-Za-z][A-Za-z\s]*" required />
+              <FloatingLabel  label="Address to drop off">
+                <Form.Control className="capitalize" onChange={handleChange} name="addressDelivery" type="text" placeholder="Address"  pattern="[A-Za-z\s]*[A-Za-z][A-Za-z\s]*" required />
                 <Form.Control.Feedback type="invalid">Provide your personal valid address</Form.Control.Feedback>
               </FloatingLabel>
             </Form.Group>

@@ -55,8 +55,8 @@ const NavBar = () => {
   return (
     <div
       className="p-0 m-0 container-fluid  navBarComponent tracking-in-expand"
-      style={{ width: "90dvw", placeContent: "start" }}>
-      <Navbar expand="sm" style={{ fontWeight: "500" }}>
+      style={{ width: "90dvw", placeContent: "start", }}>
+      <Navbar  expand="sm" style={{ fontWeight: "500" }}>
         <Navbar.Brand as={Link} to="/home">
           <img
             src="/Logo.png"

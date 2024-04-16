@@ -6,5 +6,9 @@
 
   .donorDash{
     width: 100dvw;
-    height: 100dvh;
+    min-height: 100dvh;
+    text-transform: capitalize;
+  }
+  .form.control{
+    text-transform: capitalize;
   }

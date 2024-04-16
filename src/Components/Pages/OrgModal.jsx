@@ -1,23 +1,37 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useFirebaseCRUD from "../../Config/firebaseCRUD";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../../Config/firebase";
+
+import "./CSS/RegisterPersonal.css";
 
 const OrgModal = () => {
   const { UID, userRole } = useFirebase();
   const nav = useNavigate();
-  const { addOrgData,getOrgUserData } = useFirebaseCRUD();
+  const { addOrgData, getOrgUserData } = useFirebaseCRUD();
   const [validated, setValidated] = useState(false);
-  const [orgData,setOrgData] = useState(null);
-
+  const [orgData, setOrgData] = useState(null);
 
   const districts = [
-    'Thiruvananthapuram', 'Kollam', 'Pathanamthitta', 'Alappuzha', 'Kottayam',
-    'Idukki', 'Ernakulam', 'Thrissur', 'Palakkad', 'Malappuram', 'Kozhikode',
-    'Wayanad', 'Kannur', 'Kasaragod'
+    "Thiruvananthapuram",
+    "Kollam",
+    "Pathanamthitta",
+    "Alappuzha",
+    "Kottayam",
+    "Idukki",
+    "Ernakulam",
+    "Thrissur",
+    "Palakkad",
+    "Malappuram",
+    "Kozhikode",
+    "Wayanad",
+    "Kannur",
+    "Kasaragod",
   ];
 
   const [formData, setFormData] = useState({
@@ -32,24 +46,25 @@ const OrgModal = () => {
     orgRole: userRole,
   });
 
-  
-
   const handleChange = (e) => {
-    const { name, value  } = e.target;
-    if (name === 'orgProof') {
+    const { name, value } = e.target;
+    if (name === "orgProof") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: e.target.files[0]
+        [name]: e.target.files[0],
       }));
-    }  else {
+    } else {
       setFormData({ ...formData, [name]: value });
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file.size > 1000000 || (file.type !== 'image/jpeg' && file.type !== 'image/png')) {
-      alert('Please select an image file less than 1 MB in size.');
+    if (
+      file.size > 1000000 ||
+      (file.type !== "image/jpeg" && file.type !== "image/png")
+    ) {
+      alert("Please select an image file less than 1 MB in size.");
       e.target.value = null;
     } else {
       setFormData({ ...formData, orgProof: file });
@@ -59,11 +74,10 @@ const OrgModal = () => {
   const handleOrgSubmit = async (event) => {
     const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false){
+    if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    }
-    else if (formData.orgDistrict===''){
+    } else if (formData.orgDistrict === "") {
       event.preventDefault();
       event.stopPropagation();
     }
@@ -78,8 +92,6 @@ const OrgModal = () => {
     }
   };
 
-
-  
   useEffect(() => {
     const fetchOrgData = async () => {
       const data = await getOrgUserData(UID);
@@ -87,22 +99,24 @@ const OrgModal = () => {
     };
     fetchOrgData();
     if (orgData) {
-      nav('/home');
-    };
+      nav("/home");
+    }
   }, [UID, getOrgUserData]);
 
   return (
-    <>
-          <Form variant="dark"
-            className="OrgForm"
-            validated={validated}
-            onSubmit={handleOrgSubmit}>
-            <Form.Text>
-              Please enure that the address is of organisation
-            </Form.Text>
+    <div className="OrgFormBox" style={{ width: "100vw", minHeight: '100vh' }}>
+      <Form
+        variant="dark"
+        className="p-3 OrgForm"
+        validated={validated}
+        onSubmit={handleOrgSubmit}>
+        <Row>
+          <h3 className="m-0 p-3 title">Organisation Details</h3>
+          <Col>
             <Form.Group className="py-3" controlId="orgName">
               <FloatingLabel label="Name of Organization">
                 <Form.Control
+                  className="capitalize"
                   type="text"
                   name="orgName"
                   value={formData.orgName}
@@ -112,7 +126,8 @@ const OrgModal = () => {
                 />
               </FloatingLabel>
             </Form.Group>
-
+          </Col>
+          <Col>
             <Form.Group className="py-3" controlId="orgEmail">
               <FloatingLabel label="Email of Organization">
                 <Form.Control
@@ -125,7 +140,11 @@ const OrgModal = () => {
                 />
               </FloatingLabel>
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            
             <Form.Group className="py-3" controlId="orgPhone">
               <FloatingLabel label="Phone of Organization">
                 <Form.Control
@@ -142,7 +161,9 @@ const OrgModal = () => {
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
-
+          </Col>
+          <Col>
+            
             <Form.Group className="py-3" controlId="orgProof">
               <FloatingLabel label="Proof/Certificate of Organization">
                 <Form.Control
@@ -158,10 +179,18 @@ const OrgModal = () => {
                 </Form.Text>
               </FloatingLabel>
             </Form.Group>
-
+          </Col>
+        </Row>
+        <Row>
+          
+          <Form.Text>
+            <strong>Please enure that the address is of organisation</strong>
+          </Form.Text>
+          <Col>
             <Form.Group className="py-3" controlId="orgAddress">
               <FloatingLabel label="Address of Organization">
                 <Form.Control
+                  className="capitalize"
                   type="text"
                   name="orgAddress"
                   value={formData.orgAddress}
@@ -171,7 +200,9 @@ const OrgModal = () => {
                 />
               </FloatingLabel>
             </Form.Group>
-
+          </Col>
+          <Col>
+            
             <Form.Group className="py-3" controlId="orgDistrict">
               <FloatingLabel label="District where organisation situated">
                 <Form.Control
@@ -180,16 +211,25 @@ const OrgModal = () => {
                   value={formData.orgDistrict}
                   onChange={handleChange}
                   required
-                  placeholder="Enter district"
-                > <option value=''>Select District</option>
-                {districts.map((district) => (
-                  <option key={district} value={district}>{district}</option>
-                ))}
-                 <Form.Control.Feedback type="invalid">Please select a district </Form.Control.Feedback>
+                  placeholder="Enter district">
+                  
+                  <option value="">Select District</option>
+                  {districts.map((district) => (
+                    <option key={district} value={district}>
+                      {district}
+                    </option>
+                  ))}
+                  <Form.Control.Feedback type="invalid">
+                    Please select a district
+                  </Form.Control.Feedback>
                 </Form.Control>
               </FloatingLabel>
             </Form.Group>
+          </Col>
+        </Row>
 
+        <Row style={{placeContent:'center'}}>
+          <Col md={4}>
             <Form.Group className="py-3" controlId="orgPincode">
               <FloatingLabel label="Pincode of organisation">
                 <Form.Control
@@ -202,13 +242,18 @@ const OrgModal = () => {
                   placeholder="Enter pincode"
                 />
               </FloatingLabel>
-              <Button className="mt-2" variant="primary" type="submit">
-                Save Changes
-              </Button>
             </Form.Group>
-          </Form>
-  
-    </>
+          </Col>
+          </Row>
+
+          <Row md={5}>
+            <Button className="mt-2" variant="primary" type="submit">
+              Submit Details
+            </Button>
+          </Row>
+       
+      </Form>
+    </div>
   );
 };
 

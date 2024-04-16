@@ -3,28 +3,16 @@
 .title{
   font-weight: 800;
   text-align: center;
-  color: indigo !important;
+  color: rgb(34, 250, 124) !important;
+}
+.subheadings1{
+  color: antiquewhite;
 }
 .text-pop-up-top {
   -webkit-animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
-@-webkit-keyframes text-pop-up-top {
-  0% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-    -webkit-transform-origin: 50% 50%;
-            transform-origin: 50% 50%;
-    text-shadow: none;
-  }
-  100% {
-    -webkit-transform: translateY(-50px);
-            transform: translateY(-50px);
-    -webkit-transform-origin: 40% 30%;
-            transform-origin: 30% 40%;
-    text-shadow: 0 1px 0 #6d6868, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
-  }
-}
+
 @keyframes text-pop-up-top {
   0% {
     -webkit-transform: translateY(0);
@@ -38,7 +26,7 @@
             transform: translateY(-30px);
     -webkit-transform-origin: 50% 50%;
             transform-origin: 50% 50%;
-    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc,  0 50px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 rgb(32, 19, 19), 0 2px 0 rgb(32, 19, 19), 0 3px 0 rgb(32, 19, 19), 0 4px 0 rgb(32, 19, 19),  0 50px 30px rgba(0, 0, 0, 0.3);
   }
 }
 .tracking-in-expand{-webkit-animation:tracking-in-expand 1s cubic-bezier(.215,.61,.355,1.000) both;
@@ -71,8 +59,9 @@
   
  .p{
   color: rgb(22, 21, 21);
-  color: rgb(240, 240, 240);
-  font-weight: bolder;
+  color: antiquewhite;
+  font-weight: bold;
+  font-size: large;
 }
 .subheadings{
   color: #fff;
@@ -111,4 +100,25 @@
   .getStarted{
     background: linear-gradient(to right, rgb(0, 132, 255) 70%,black ) !important; 
  
+  }
+  
+  .landing-page .social-account-container .social-accounts {
+    width: 100%;
+    gap: 15px;
+  }
+  
+  .landing-page .social-account-container .social-accounts .social-button {
+    background: linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(112, 112, 112) 100%) !important;
+    border: 5px solid white;
+    border-radius: 50%;
+    width: 40px;
+    aspect-ratio: 1;
+    display: grid;
+    place-content: center;
+    transition: all 0.2s ease-in-out;
+    fill: white;
+  }
+  
+  .landing-page  .social-account-container .social-accounts .social-button:hover {
+    transform: scale(1.2);
   }

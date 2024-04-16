@@ -1,6 +1,6 @@
 .recipientDash{
     width: 100dvw !important;
-    height: 100dvh;
+    min-height: 100dvh;
     margin: 0%;
     /* background-color: rgb(215, 223, 250); */
 }

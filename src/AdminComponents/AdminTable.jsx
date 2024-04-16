@@ -139,12 +139,14 @@ console.log(userDatas);
               <td>{user.firstName}</td>
               <td>{user.phone}</td>
               <td>
+                {user.adminVerifyDetails===false ?
                 <Button
                   onClick={() => handleShowModal(user)}
                   style={{ background: "springgreen",color:'black',fontWeight:'bold', width: "80%" }}
                 >
                   Click Here
-                </Button>
+                </Button> : "Verified"
+              }
               </td>
             </tr>
           ))}

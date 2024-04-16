@@ -1,12 +1,12 @@
 /* registerPersonal */
 
-.register{
+.register , .OrgFormBox{
     display: flex;
     place-content: center;
     align-items: center;
     
 }
-.registerForm{
+.registerForm, .OrgForm{
     /* background: black; */
 box-shadow: 2px 3px 6px 4px grey ;
     border-radius: 20px;
@@ -17,7 +17,7 @@ box-shadow: 2px 3px 6px 4px grey ;
 }
 
 @media screen and (width<600px) {
-    .register .registerForm{
+    .register .registerForm, .OrgForm{
         width: 78dvw !important;
         margin: 20px 0px 20px 0px;
         border-radius: 15px;
@@ -25,7 +25,7 @@ box-shadow: 2px 3px 6px 4px grey ;
     
 }
 @media screen and (width<950px) and (width>600px){
-    .register .registerForm{
+    .register .registerForm, .OrgForm{
         width: 65dvw !important;
         margin: 20px 0px 20px 0px;
         border-radius: 15px;

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useFirebase } from "./firebase";
 import { getDatabase } from 'firebase/database';
 import { serverTimestamp,getFirestore, 
@@ -14,7 +14,7 @@ const useFirebaseCRUD = () => {
     const {UID} = useFirebase();
     const db = getFirestore(firebaseApp);
     const storage = getStorage(firebaseApp);
-  
+  const [userData,setUserData] = useState([]);
     // useData
     const addUserData = async (data,proof,latitud,longitud) => {
       try {
@@ -69,14 +69,15 @@ const useFirebaseCRUD = () => {
         }
     };
     
-    // Get user data based on UID
-    const getUserData = async (UID) => {
+    const getUserDetails = async (UID) => {
       try {
         const userQuery = query(collection(db, 'USER_DATA'), where('uid', '==', UID));
         const userQuerySnapshot = await getDocs(userQuery);
-    
+        
         if (!userQuerySnapshot.empty) {
-          const userData = userQuerySnapshot.docs[0].data();
+          const userDetails = userQuerySnapshot.docs[0].data()
+           setUserData(userDetails);
+          console.log(userData);
           return userData;
         } else {
           console.log('User data not found');
@@ -87,7 +88,32 @@ const useFirebaseCRUD = () => {
         return null;
       }
     };
-//get org - realted user
+    // Get user data based on UID
+    useEffect ( () => {
+
+      const getUserData = async () => {
+        try {
+          const userQuery = query(collection(db, 'USER_DATA'), where('uid', '==', UID));
+          const userQuerySnapshot = await getDocs(userQuery);
+          
+          if (!userQuerySnapshot.empty) {
+            const userDetails = userQuerySnapshot.docs[0].data()
+             setUserData(userDetails);
+            console.log(userData);
+            return userData;
+          } else {
+            console.log('User data not found');
+            return null;
+          }
+        } catch (error) {
+          console.error('Error getting user data:', error);
+          return null;
+        }
+      };
+      getUserData();
+    }, [UID, ]);
+
+      //get org - realted user
 const getOrgUserData = async (UID) => {
   try {
     const userOrgQuery = query(collection(db, 'Org_DATA'), where('representID', '==', UID));
@@ -107,14 +133,20 @@ const getOrgUserData = async (UID) => {
 };
 
 //donation
-const getDonatData = async (uid) => {
+const getDonatData = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'DONATs'), where('donorId', '==', uid));
-    const userData = [];
+    // console.log(uid);
+    const queryRef = collection(db,'DONATs');
+    const DonatQuery = query(queryRef, where('donorID', '==', UID));
+    const  querySnapshot = await getDocs(DonatQuery);
+
+    console.log(querySnapshot.docs);
+    const donationData = [];
     querySnapshot.forEach((doc) => {
-      userData.push({ id: doc.id, ...doc.data() });
+      donationData.push({ id: doc.id, ...doc.data() });
     });
-    return userData;
+    console.log(donationData,"y");
+    return donationData;
   } catch (error) {
     console.error('Error getting user data:', error);
     return null;
@@ -123,7 +155,7 @@ const getDonatData = async (uid) => {
 //requests
 const getReqsData = async (uid) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'REQs'), where('recipientId', '==', uid));
+    const querySnapshot = await getDocs(collection(db, 'REQs'), where('recipientID', '==', uid));
     const userData = [];
     querySnapshot.forEach((doc) => {
       userData.push({ id: doc.id, ...doc.data() });
@@ -137,7 +169,7 @@ const getReqsData = async (uid) => {
   
 //notifications
 const getNotifications = async (uid) =>{
-  console.log("in gett notif")
+  // console.log("in gett notif")
   const notificationsRef = collection(db, 'NOTIFICATIONS');
   const notificationsQuery = query(notificationsRef, where('userId', '==', uid));
   const notificationsSnapshot = await getDocs(notificationsQuery);
@@ -423,6 +455,7 @@ const fetchPossibleMatches = async () => {
     userData.push({ uid: userDoc.id, ...userDoc.data() });
   });
 
+  //fetch matccting donation and request
   const possibleMatches = [];
 
   donationsSnapshot.forEach((donationDoc) => {
@@ -434,11 +467,11 @@ const fetchPossibleMatches = async () => {
       const qtyDifference = Math.abs(donationQty - reqQty);
 
       // Match the district and check the quantity difference
-      if (donationDistrict === reqDistrict && (qtyDifference === 0 || qtyDifference <= 4)) {
+      if (donationDistrict === reqDistrict && (qtyDifference === 0 || qtyDifference <= 5)) {
         // Get the user data for both donor and recipient
         const donorId = donationDoc.data().donorID;
         const recipientId = reqDoc.data().recipientID;
-
+// console.log(reqDoc.id)
         // Fetch user data for the donor and recipient
         const donorData = userData.find(user => user.uid === donorId);
         const recipientData = userData.find(user => user.uid === recipientId);
@@ -446,7 +479,7 @@ const fetchPossibleMatches = async () => {
         possibleMatches.push({
           donationId: donationDoc.id,
           donationData: { ...donationDoc.data(),...donorData },
-          requestId: recipientId,
+          requestId: reqDoc.id,
           requestData: { ...reqDoc.data(), ...recipientData }
         });
       }
@@ -457,17 +490,55 @@ const fetchPossibleMatches = async () => {
 };
 
 
+//store the possible matches
+const storeMatch = async (donationId, requestId, qtyDonated, date,district, status) => {
+  try {
+    const donationRef = doc(db, "DONATs", donationId);
+    await updateDoc(donationRef, { status: 1 });
+
+    const requestRef = doc(db, "REQs", requestId);
+    await updateDoc(requestRef, { status: 1 });
+    const docRef = await addDoc(collection(db, 'matches'), {
+      donationId: donationId,
+      requestId: requestId,
+      qtyDonated: qtyDonated,
+      dateDonating: date,
+      districtDonated:district,
+      status: status,
+      createdAT: serverTimestamp(),
+    });
+    console.log('Match added with ID: ', docRef.id);
+    alert("Document Added");
+  } catch (error) {
+    console.error('Error adding match: ', error);
+  }
+};
+
+//notify to to donor and recipient
+const storeNotification = async (userId, message) => {
+  try {
+    const docRef = await addDoc(collection(db, 'NOTIFICATIONS'), {
+      userId: userId,
+      message: message,
+      timestamp: serverTimestamp(),
+    });
+    console.log('Notification added with ID: ', docRef.id);
+  } catch (error) {
+    console.error('Error adding notification: ', error);
+  }
+};
+
 
     
   
-    return { addUserData, addOrgData, addReqDonat, 
-      getUserData,getOrgUserData,
+    return {  userData,addUserData, addOrgData, addReqDonat, 
+      getOrgUserData,getUserDetails,
       getReqsData, getDonatData, 
       getNotifications, PostNotifications,createCombinationApprovalNotification,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
       fetchPossibleMatches,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
-      createCombination,fetchCombination,updateCombination,
+      storeMatch,storeNotification,
       getDataById, getAllData };
       
   };
