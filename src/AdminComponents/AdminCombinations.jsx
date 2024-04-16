@@ -19,7 +19,7 @@ const AdminInterface = () => {
       const matches = await fetchPossibleMatches();
       setMatchedData(matches);
     };
-    // console.log(matchedData, "matches");
+    console.log(matchedData, "matches");
     fetchData();
   }, []);
   const openEditModal = (item) => {
@@ -69,9 +69,10 @@ const AdminInterface = () => {
           </tr>
         </thead>
         <tbody>
-          {matchedData.map((item) => (
+          
+          {matchedData.map((item,index) => (
             <>
-              <tr key={item.id}>
+              <tr key={index}>
                 <td> 
                   {item.donationData.fullName}
                 </td>

@@ -10,8 +10,8 @@
     height: fit-content;
 } */
 #myChart{
-    height: 30dvh !important;
+    height: 50dvh !important;
     min-height: fit-content ;
-    width: 40dvw !important;
-    background-color: white;
+    width: 50dvw !important;
+    /* background-color: white; */
 }

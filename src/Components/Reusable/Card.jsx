@@ -100,7 +100,6 @@ const CustomCard = () => {
           <Card.Body>
             <Card.Title>{org.title}</Card.Title>
             <Card.Text>{org.description}</Card.Text>
-            {/* Add a button if needed */}
           </Card.Body>
         </Card>
         </div>
@@ -112,7 +111,3 @@ const CustomCard = () => {
 
 export default CustomCard;
 
-
- {/* <Button variant="primary">Details</Button> */}
-//  </Card.Body>
-//  </Card>

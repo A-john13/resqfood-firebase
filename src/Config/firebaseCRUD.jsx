@@ -252,7 +252,7 @@ const createCombinationApprovalNotification = async (userId, requesterUserId, do
 const fetchUserDetails = async (setUserDatas) => {
   const userDetails = [];
 
-  const userSubcollectionRef = collection(db, `USER_DATA`);
+  const userSubcollectionRef = query(collection(db, `USER_DATA`),orderBy('adminVerifyDetails'));
   const unsubscribe = onSnapshot(userSubcollectionRef, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       if (change.type === "added") {
@@ -278,7 +278,7 @@ const fetchUserDetails = async (setUserDatas) => {
 
 
  const fetchDonations = async () => {
-  const donationsSnapshot = await getDocs(collection(db, 'DONATs'));
+  const donationsSnapshot = await getDocs(query(collection(db, 'DONATs'),orderBy('dateDonating','desc')));
   const donationsWithUserData = [];
   const donationUserData = [];
 
@@ -286,7 +286,7 @@ const fetchUserDetails = async (setUserDatas) => {
     const donationData = doc.data();
     const donorId = donationData.donorID;
     const uid = donorId;
-    const userQuerySnapshot = await getDocs(query(collection(db, `USER_DATA`), where('uid', '==', donorId)));
+    const userQuerySnapshot = await getDocs(query(collection(db, `USER_DATA`),where('uid', '==', donorId)));
     let userData = null;
 
     userQuerySnapshot.forEach((userDoc) => {
@@ -301,7 +301,7 @@ const fetchUserDetails = async (setUserDatas) => {
 
 // Function to fetch requests
  const fetchRequests = async () => {
-  const reqsSnapshot = await getDocs(collection(db, 'REQs'));
+  const reqsSnapshot = await getDocs(query(collection(db, 'REQs'),orderBy('dateDonating','desc')));
   const reqsWithUserData = [];
   const reqsUserData =[];
 
@@ -323,18 +323,7 @@ const fetchUserDetails = async (setUserDatas) => {
  };
 
 
- const createCombination =()=>{
-  console.log("in gett createcombinations")
- 
-}
- const fetchCombination =()=>{
-  console.log("in gett createcombinations")
- 
-}
- const updateCombination =()=>{
-  console.log("in gett createcombinations")
- 
-}
+
 // Function to fetch users
 const fetchUsers = async () => {
   const [data,setData] = useState([]);
@@ -356,11 +345,11 @@ const fetchUsers = async () => {
 //reports
 
 const fetchAllDonations = async (statusFilter, verificationFilter) => {
-  const donationsRef = collection(db, 'DONATs');
+  const donationsRef = query(collection(db, 'DONATs'));
   let filteredDonationsQuery = donationsRef;
 
   if (statusFilter) {
-    filteredDonationsQuery = query(filteredDonationsQuery, where('status', '==', statusFilter));
+    filteredDonationsQuery = query(filteredDonationsQuery,orderBy('dateDonating'), where('status', '==', statusFilter));
   }
 
   if (verificationFilter) {
@@ -401,9 +390,9 @@ const getGroupByDonorId = async () => {
     const existingDonation = donationsData.find((d) => d.donorID === donation.donorID);
     const querySnapshot = getDocs(collection(db, 'USER_DATA'), where('uid', '==', donation.donorID));
     const userData = [];
-    // querySnapshot.forEach((doc) => {
-    //   userData.push({ donorName: doc.fullName });
-    // });
+    querySnapshot.docs().forEach((doc) => {
+      userData.push({ donorName: doc.fullName });
+    });
     if (existingDonation) {
       existingDonation.count++;
     } else {
@@ -441,7 +430,7 @@ const getGroupByDistrict = async () => {
 
 // possuble matches
 const fetchPossibleMatches = async () => {
-  const donationsRef = collection(db, 'DONATs');
+  const donationsRef = query(collection(db, 'DONATs'),orderBy('dateDonating',"desc"));
   const reqsRef = collection(db, 'REQs');
   const usersRef = collection(db, 'USER_DATA');
 
@@ -498,7 +487,7 @@ const storeMatch = async (donationId, requestId, qtyDonated, date,district, stat
 
     const requestRef = doc(db, "REQs", requestId);
     await updateDoc(requestRef, { status: 1 });
-    const docRef = await addDoc(collection(db, 'matches'), {
+    const docRef = await addDoc(collection(db, 'COMBINED'), {
       donationId: donationId,
       requestId: requestId,
       qtyDonated: qtyDonated,
@@ -529,7 +518,88 @@ const storeNotification = async (userId, message) => {
 };
 
 
-    
+//total counts donat and reqs
+const getDonationsReport = async () => {
+  const donationsRef = collection(db, 'DONATs');
+  const donationsSnapshot = await getDocs(donationsRef);
+  const donationsData = donationsSnapshot.docs.map(doc => doc.data());
+// console.log(donationsData);
+  const totalDonations = donationsData.length;
+
+  const today = new Date();
+  const donatStartOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const nextday = new Date(today.getFullYear(), today.getMonth(), today.getDate()+1);
+  console.log(nextday,"net")
+  const donatStartOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+  const donatStartOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+// donationsData.filter(donation => console.log(donation.dateDonating,"date"));
+  // const donationsMadeDaily = donationsData.filter(donation =>  Date(donation.dateDonating) >= startOfToday ).length;
+  const donationsMadeDaily = donationsData.filter(donation => {
+    const donationDate = new Date(donation.dateDonating);
+    return donationDate >= donatStartOfToday && donationDate < nextday;
+  }).length;
+  const donationsMadeWeekly = donationsData.filter(donation => new Date(donation.dateDonating) >= donatStartOfThisWeek).length;
+  const donationsMadeMonthly = donationsData.filter(donation => new Date(donation.dateDonating) >= donatStartOfThisMonth).length;
+
+  const approvedDonations = donationsData.filter(donation => donation.adminVerify === true).length;
+  const rejectedDonations = donationsData.filter(donation => donation.adminVerify === false).length;
+
+
+
+  //REQs Colectsion
+  const reqsRef = collection(db, 'REQs');
+  const reqsSnapshot = await getDocs(reqsRef);
+  const reqsData = reqsSnapshot.docs.map(doc => doc.data());
+// console.log(reqsData);
+  const totalReqs = reqsData.length;
+
+  const reqStartOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const reqStartOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+  const reqStartOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+// reqsData.filter(req => console.log(req.dateDonating,"date"));
+  // const reqsMadeDaily = reqsData.filter(req =>  Date(req.dateDonating) >= startOfToday ).length;
+  const reqsMadeDaily = reqsData.filter(req => {
+    const reqDate = new Date(req.dateDonating);
+    return reqDate >= reqStartOfToday && reqDate < nextday;
+  }).length;
+  const reqsMadeWeekly = reqsData.filter(req => new Date(req.dateDonating) >= reqStartOfThisWeek).length;
+  const reqsMadeMonthly = reqsData.filter(req => new Date(req.dateDonating) >= reqStartOfThisMonth).length;
+
+  const approvedReqs = reqsData.filter(req => req.adminVerify === true).length;
+  const rejectedReqs = reqsData.filter(req => req.adminVerify === false).length;
+  const ratioMonthly = donationsMadeMonthly/reqsMadeMonthly;
+ 
+  return { totalDonations,donationsMadeDaily,donationsMadeWeekly, donationsMadeMonthly,approvedDonations,rejectedDonations,
+    totalReqs,reqsMadeDaily,reqsMadeWeekly, reqsMadeMonthly,approvedReqs,rejectedReqs , ratioMonthly };
+};
+
+//total reqs counts
+const getReqsReport = async () => {
+  
+};
+
+//total users
+const getTotalUsers = async () => {
+  try {
+    const usersSnapshot = await getDocs(collection(db, 'USERS'));
+    // console.log(usersSnapshot,'snao')
+    const totalDonors = usersSnapshot.docs.filter(doc => doc.data().role === '1').length;
+    const totalApprovedDonors = usersSnapshot.docs.filter(doc => doc.data().adminApprove===true && doc.data().role==='1').length;
+    const totalRejectedDonors = usersSnapshot.docs.filter(doc => doc.data().adminApprove===false && doc.data().role==='1').length;
+    const totalRecipients = usersSnapshot.docs.filter(doc => doc.data().role==='2').length;
+    const totalApprovedRecipients = usersSnapshot.docs.filter(doc => doc.data().adminApprove===true && doc.data().role==='2').length;
+    const totalRejectedRecipients = usersSnapshot.docs.filter(doc => doc.data().adminApprove===false && doc.data().role==='2').length;
+
+    console.log(usersSnapshot.size, totalDonors,totalApprovedDonors, totalRejectedDonors,totalRecipients,  totalApprovedRecipients, totalRejectedRecipients,  totalRecipients / totalDonors);
+    return [usersSnapshot.size, totalDonors, totalApprovedDonors, totalRejectedDonors, totalRecipients, totalApprovedRecipients, totalRejectedRecipients,  totalRecipients / totalDonors];
+  } catch (error) {
+    console.error('Error fetching total users:', error);
+    throw error;
+  }
+};
+
+
+
   
     return {  userData,addUserData, addOrgData, addReqDonat, 
       getOrgUserData,getUserDetails,
@@ -538,6 +608,7 @@ const storeNotification = async (userId, message) => {
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
       fetchPossibleMatches,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
+      getDonationsReport,getReqsReport,getTotalUsers,
       storeMatch,storeNotification,
       getDataById, getAllData };
       

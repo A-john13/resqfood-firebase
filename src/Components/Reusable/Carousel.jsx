@@ -56,7 +56,6 @@ const images= [
   "ideogram.jpg",
   "ML.png",
   "orphanage1.jpg",
-  "chameleon.jpg",
   "closefood-jar.jpg",
   "donation01000.png",
   "food.jpg",

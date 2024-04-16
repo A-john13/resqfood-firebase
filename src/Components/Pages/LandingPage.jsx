@@ -90,8 +90,7 @@ const LandingPage = () => {
 
 
       <footer
-        className="p-0 m-0 footer"
-        style={{ background: "black", color: "white" }}>
+        className="p-0 m-0 footer" style={{background:'rgba(0,0,0,0.6)',color:'rgba(255,255,222,0.8)'}}>
         <div className="container-fluid" style={{textAlign:'start',fontSize:'medium'}}>
           <div className="row">
             <div className="col m-0 px-5 pt-3">

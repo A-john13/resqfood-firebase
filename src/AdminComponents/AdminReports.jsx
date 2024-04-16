@@ -80,7 +80,7 @@ const Reports = () => {
   console.log(donationsByDistrict);
   console.log(donationsByDonorId);
     return (
-      <div className="adminReportBox">
+      <div className="adminReportBox" style={{background:'whitesmoke'}}>
 
       <div className="reports" >
         <h2>Reports</h2>
@@ -91,8 +91,8 @@ const Reports = () => {
       <h2>Donation Reports</h2>
       <h3>Donations by Donor ID</h3>
       <ul>
-        {donationsByDonorId.map((donation) => (
-          <li key={donation.donorId}>
+        {donationsByDonorId.map((donation,index) => (
+          <li key={index}>
             Donor ID: {donation.donorName}, Count: {donation.count}
           </li>
         ))}
