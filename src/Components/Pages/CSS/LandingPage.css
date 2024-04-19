@@ -1,14 +1,14 @@
 /* Landing */
 
-.title{
+.landing-page .title{
   font-weight: 800;
   text-align: center;
   color: rgb(34, 250, 124) !important;
 }
-.subheadings1{
+.landing-page .subheadings1{
   color: antiquewhite;
 }
-.text-pop-up-top {
+.landing-page .text-pop-up-top {
   -webkit-animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	        animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
@@ -29,7 +29,7 @@
     text-shadow: 0 1px 0 rgb(32, 19, 19), 0 2px 0 rgb(32, 19, 19), 0 3px 0 rgb(32, 19, 19), 0 4px 0 rgb(32, 19, 19),  0 50px 30px rgba(0, 0, 0, 0.3);
   }
 }
-.tracking-in-expand{-webkit-animation:tracking-in-expand 1s cubic-bezier(.215,.61,.355,1.000) both;
+.landing-page .tracking-in-expand{-webkit-animation:tracking-in-expand 1s cubic-bezier(.215,.61,.355,1.000) both;
   animation:tracking-in-expand 1s cubic-bezier(.215,.61,.355,1.000) both}
 
   @-webkit-keyframes tracking-in-expand {
@@ -57,13 +57,13 @@
     }
   }
   
- .p{
+ .landing-page .p{
   color: rgb(22, 21, 21);
   color: antiquewhite;
   font-weight: bold;
   font-size: large;
 }
-.subheadings{
+.landing-page .subheadings{
   color: #fff;
 }
 .landing-page {
@@ -78,17 +78,17 @@
     background-position: center;
     background-size: cover;
   }
-  .content{
+  .landing-page .content{
     opacity: 99 !important;
     color: orange;
   }
 
-  .butons{
+  .landing-page .butons{
     place-content: center !important;
     padding: 25px;
     align-items: center;
   }
-  .getStarted:hover{
+  .landing-page .getStarted:hover{
     transition: 0.4s;
     scale: 1.09;
     font-weight: bolder;
@@ -97,7 +97,7 @@
   .landing-page svg{
     color: black;
   }
-  .getStarted{
+  .landing-page .getStarted{
     background: linear-gradient(to right, rgb(0, 132, 255) 70%,black ) !important; 
  
   }

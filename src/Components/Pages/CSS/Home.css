@@ -27,3 +27,12 @@
   .homePage  .social-account-container .social-accounts .social-button:hover {
     transform: scale(1.2);
   }
+
+  .homePage .card-heading{
+    font-size: 33.18px;
+    line-height: 37px;
+    font-family: sofia-pro;
+    font-style: normal;
+    font-weight: 700;
+    text-decoration: none;
+  }

@@ -7,6 +7,7 @@ import CustomCard from "../Reusable/Card";
 import { useFirebase } from "../../Config/firebase";
 import { useNavigate } from "react-router-dom";
 
+import UI1 from "../Reusable/UI1";
 import "./CSS/Home.css";
 import useFirebaseCRUD from "../../Config/firebaseCRUD";
 
@@ -21,7 +22,8 @@ console.log(UID);
       <Container fluid className="m-0 navBar" style={{ width: "95dvw" }}>
         <NavBar userType={() => {}} />
       </Container>
-
+      <UI1/>
+      
       <Container
         fluid
         className="p-0 m-0 d-flex justify-content-center carouselsSlider"

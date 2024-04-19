@@ -15,3 +15,13 @@
     width: 50dvw !important;
     /* background-color: white; */
 }
+.reportStyle = {
+    backgroundColor: #f9f9f9,
+    padding: 20px,
+    borderRadius: 5px,
+    boxShadow: 0 2px 4px rgba(0,0,0,0.1),
+    margin: 20px 0,
+  };
+  .iconStyle = {
+    marginRight: 5px,
+  };

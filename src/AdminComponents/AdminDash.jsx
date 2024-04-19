@@ -35,7 +35,7 @@ const AdminDash = () => {
       setUserDatas(details);
     };
 
-    console.log(userDatas,"wtf")
+    // console.log(userDatas,"wtf")
     fetchData();
   }, []);
 
@@ -111,11 +111,11 @@ const AdminDash = () => {
                   Donations
                 </Nav.Link>
               </Nav.Item>
-              {/* <Nav.Item>
-                <Nav.Link className="p-4" as={Link} to="#">
+              <Nav.Item>
+                <Nav.Link className="p-4" as={Link} to="/report">
                   Reports
                 </Nav.Link>
-              </Nav.Item> */}
+              </Nav.Item>
               <Nav.Item>
                 <Nav.Link className="p-4" as={Link} to="/user/role/adminDash/posibleMatches">
                   Combinations

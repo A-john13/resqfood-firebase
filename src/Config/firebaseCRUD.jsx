@@ -572,30 +572,23 @@ const getDonationsReport = async () => {
   return { totalDonations,donationsMadeDaily,donationsMadeWeekly, donationsMadeMonthly,approvedDonations,rejectedDonations,
     totalReqs,reqsMadeDaily,reqsMadeWeekly, reqsMadeMonthly,approvedReqs,rejectedReqs , ratioMonthly };
 };
-
-//total reqs counts
-const getReqsReport = async () => {
-  
-};
-
 //total users
 const getTotalUsers = async () => {
-  try {
     const usersSnapshot = await getDocs(collection(db, 'USERS'));
     // console.log(usersSnapshot,'snao')
     const totalDonors = usersSnapshot.docs.filter(doc => doc.data().role === '1').length;
+    const totalApproved = usersSnapshot.docs.filter(doc => doc.data().adminApprove===true).length;
+    const totalRejected = usersSnapshot.docs.filter(doc => doc.data().adminApprove===false).length;
     const totalApprovedDonors = usersSnapshot.docs.filter(doc => doc.data().adminApprove===true && doc.data().role==='1').length;
     const totalRejectedDonors = usersSnapshot.docs.filter(doc => doc.data().adminApprove===false && doc.data().role==='1').length;
     const totalRecipients = usersSnapshot.docs.filter(doc => doc.data().role==='2').length;
     const totalApprovedRecipients = usersSnapshot.docs.filter(doc => doc.data().adminApprove===true && doc.data().role==='2').length;
     const totalRejectedRecipients = usersSnapshot.docs.filter(doc => doc.data().adminApprove===false && doc.data().role==='2').length;
-
-    console.log(usersSnapshot.size, totalDonors,totalApprovedDonors, totalRejectedDonors,totalRecipients,  totalApprovedRecipients, totalRejectedRecipients,  totalRecipients / totalDonors);
-    return [usersSnapshot.size, totalDonors, totalApprovedDonors, totalRejectedDonors, totalRecipients, totalApprovedRecipients, totalRejectedRecipients,  totalRecipients / totalDonors];
-  } catch (error) {
-    console.error('Error fetching total users:', error);
-    throw error;
-  }
+    const totalUsers =usersSnapshot.size;
+    const ratio = totalRecipients / totalDonors;
+    console.log(totalUsers);
+    return {totalUsers, totalApproved, totalRejected, totalDonors, totalApprovedDonors, totalRejectedDonors, totalRecipients, totalApprovedRecipients, totalRejectedRecipients,  ratio};
+ 
 };
 
 
@@ -608,7 +601,7 @@ const getTotalUsers = async () => {
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
       fetchPossibleMatches,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
-      getDonationsReport,getReqsReport,getTotalUsers,
+      getDonationsReport,getTotalUsers,
       storeMatch,storeNotification,
       getDataById, getAllData };
       

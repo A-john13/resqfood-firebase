@@ -1,4 +1,4 @@
-import "./deny.css";
+// import "./deny.css";
 import React, { useState,useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -14,6 +14,7 @@ import Contact from "./contact";
 import Work from "./work";
 import Testimonial from "./testimonial";
 
+import { Bar,Doughnut,Pie,Line,Scatter, } from 'react-chartjs-2';
 import { Typography, Grid, Card, CardContent, CardHeader, Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
@@ -21,73 +22,178 @@ import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaCheckCircle, FaTimesCir
 
 const Deny1 = () => {
   const { UID, userRole } = useFirebase();
-const { getDonationsReport, getReqsReport,getUserReports,getTotalUsers } = useFirebaseCRUD();
+const { getDonationsReport,getUserReports,getTotalUsers } = useFirebaseCRUD();
 
 const [donatReport, setDonatReport] = useState(null);
-const [reqReport, setReqReport] = useState(null);
 const [userReport,setUserReport] = useState(null);
+var totalUsers = null;
+var totalDonors = null;
+var totalRecipients = null;
   useEffect(() => {
     const fetchReportData = async () => {
       const donat = await getDonationsReport();
-      const req = await getReqsReport();
       // const users = await getUserReports();
       const users = await getTotalUsers();
-      setUserReport(users);
-      setReqReport(req)
-      setDonatReport(donat);
-      // console.log(users.data);
-    };
+      totalUsers=users[0];
+      if(users){
+
+        setUserReport(users);
+        setDonatReport(donat);
+        console.log({userReport},"twtt");
+        // console.log(totalUsers,totalDonors,totalRecipients,"et");
+      }
+    }
 
     fetchReportData();
   }, []);
 
-  const reportStyle = {
-    backgroundColor: '#f9f9f9',
-    padding: '20px',
-    borderRadius: '5px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    margin: '20px 0',
-  };
-  const iconStyle = {
-    marginRight: '5px',
-  };
+
+
+  // const [userData, setUserData] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await getTotalUsers();
+  //     setUserData(data);
+  //     console.log(userData);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+
+  // const data = {
+  //   labels: ['Total', 'Approved', 'Rejected'],
+  //   datasets: [
+  //     {
+  //       label: 'users',
+  //       backgroundColor: 'rgba(75,0,130, 0.4)',
+  //       borderColor: 'rgba(75,0,130, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(75,0,130, 0.7)',
+  //       hoverBorderColor: 'rgba(75,0,130, 1)',
+  //       data: [totalUsers],
+  //     },
+  //     {
+  //       label: 'Donors',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  //       borderColor: 'rgba(255, 99, 132, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
+  //       data: [userReport.totalDonors, userReport.totalApprovedDonors, userReport.totalRejectedDonors],
+  //     },
+  //     {
+  //       label: 'Recipients',
+  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
+  //       borderColor: 'rgba(54, 162, 235, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
+  //       data: [userReport.totalRecipients, userReport.totalApprovedRecipients, userReport.totalRejectedRecipients],
+  //     },
+  //   ],
+  // };
+  // const ReportCountdata = {
+  //   labels: ['Total', 'Approved', 'Rejected'],
+  //   datasets: [
+  //     {
+  //       label: 'Donations',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  //       borderColor: 'rgba(255, 99, 132, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
+  //       data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
+  //     },
+  //     {
+  //       label: 'Requests',
+  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
+  //       borderColor: 'rgba(54, 162, 235, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
+  //       data: [donatReport.totalReqs,donatReport.approvedReqs,donatReport.rejectedReqs],
+  //     },
+  //   ],
+  // };
+  // const DonorDonationsdata = {
+  //   labels: ['Total', 'Approved', 'Rejected'],
+  //   datasets: [
+  //     {
+  //       label: 'Donors',
+  //       backgroundColor: 'rgba(95, 95, 195, 0.3)',
+  //       borderColor: 'rgba(95,95,195, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(95, 95, 195, 0.7)',
+  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
+  //       data: [userReport.totalDonors, userReport.totalApprovedDonors, userReport.totalRejectedDonors],
+  //     },
+  //     {
+  //       label: 'Donations',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  //       borderColor: 'rgba(255, 99, 132, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
+  //       data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
+  //     },
+  //   ],
+  // };
+  // const ReqsRecipsdata = {
+  //   labels: ['Total', 'Approved', 'Rejected'],
+  //   datasets: [
+  //     {
+  //       label: 'Recipients',
+  //       backgroundColor: 'rgba(155,155,55, 0.3)',
+  //       borderColor: 'rgba(155,155,55, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(155,155,55, 0.7)',
+  //       hoverBorderColor: 'rgba(155,155,55, 1)',
+  //       data: [userReport.totalRecipients, userReport.totalApprovedRecipients, userReport.totalRejectedRecipients],
+  //     },
+  //     {
+  //       label: 'Requests',
+  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
+  //       borderColor: 'rgba(255, 99, 132, 1)',
+  //       borderWidth: 1,
+  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
+  //       data: [donatReport.totalReqs, donatReport.approvedReqs, donatReport.rejectedReqs],
+  //     },
+  //   ],
+
+
   
  
   return (
     <div >
- <h2>Donation Report</h2>
-  {donatReport && (
+
+  { userReport === !null && (
     <>
-    <div>
-      <p><FaCalendarDay style={iconStyle} />Total Donations: {donatReport.totalDonations}</p>
-      <p><FaCalendarDay style={iconStyle} />Donations Made Today: {donatReport.donationsMadeDaily}</p>
-      <p><FaCalendarWeek style={iconStyle} />Donations Made This Week: {donatReport.donationsMadeWeekly}</p>
-      <p><FaCalendarAlt style={iconStyle} />Donations Made This Month: {donatReport.donationsMadeMonthly}</p>
-      <p><FaCheckCircle style={{ ...iconStyle, color: 'blue' }} />Approved Donations: {donatReport.approvedDonations}</p>
-      <p><FaTimesCircle style={{ ...iconStyle, color: 'red' }} />Rejected Donations: {donatReport.rejectedDonations}</p>
+    <div> 
+      <h2>Donations vs Requests</h2>
+      <Bar data={data} />
     </div>
- <h2>Requset Report</h2>
+
     <div>
-      <p><FaCalendarDay style={iconStyle} />Total Requests: {donatReport.totalReqs}</p>
-      <p><FaCalendarDay style={iconStyle} />Requests Made Today: {donatReport.reqsMadeDaily}</p>
-      <p><FaCalendarWeek style={iconStyle} />Requests Made This Week: {donatReport.reqsMadeWeekly}</p>
-      <p><FaCalendarAlt style={iconStyle} />Requests Made This Month: {donatReport.reqsMadeMonthly}</p>
-      <p><FaCheckCircle style={{ ...iconStyle, color: 'blue' }} />Approved Requests: {donatReport.approvedReqs}</p>
-      <p><FaTimesCircle style={{ ...iconStyle, color: 'red' }} />Rejected Requests: {donatReport.rejectedReqs}</p>
-      <h4>Ratio of Donation against Requests on Monthly scale: {donatReport.ratioMonthly}</h4>
+      <h2>Donors vs Recipients</h2>
+      <Bar data={ReportCountdata} />
     </div>
-    </>
-  )}
+    <div>
+      <h2>Donors vs Donations</h2>
+      <Bar data={DonorDonationsdata} />
+    </div>
+    <div>
+      <h2>Recipients vs Requests</h2>
+      <Bar data={ReqsRecipsdata} />
+    </div>
+ </>
+   ) }
 
-     {/* <div className="App">
-      <Home />
-      <About />
-      <Work />
-      <Testimonial />
-      <Contact />
-      <Footer />
-    </div> */}
-
+{userReport && 
+( <h1> To be approved: {userReport.totalRejectedDonors}</h1> )
+}
 <Grid container spacing={2}>
       {userReport && (
         <>
@@ -100,17 +206,17 @@ const [userReport,setUserReport] = useState(null);
                   </Avatar>
                 }
                 title="Total Users"
-                subheader={userReport[0]}
+                subheader={userReport.totalUsers}
               />
               <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                  Donors: {userReport[1]}
+                  Donors: {userReport.totalDonors}
               <br />
-                   To be approved: {userReport[2]}
+                   To be approved: {userReport.totalRejectedDonors}
                 </Typography>
                 <br />
                 <Typography variant="body2" color="textSecondary" component="p">
-              Ratio of Recipients to Donors: {userReport[7]}
+              Ratio of Recipients to Donors: {userReport.ratio}
             </Typography>
               </CardContent>
               </Card>
@@ -124,13 +230,13 @@ const [userReport,setUserReport] = useState(null);
                   </Avatar>
                 }
                 title="Total Donors"
-                subheader={userReport[1]}
+                subheader={userReport.totalDonors}
               />
               <CardContent>
               <Typography variant="body2" color="textSecondary" component="p">
-                  Approved: {userReport[2]}
+                  Approved: {userReport.totalApprovedDonors}
                  <br />
-                 To be Approved: {userReport[3]}
+                 To be Approved: {userReport.totalRejectedDonors}
                 </Typography>
               </CardContent>
             </Card>
@@ -144,17 +250,17 @@ const [userReport,setUserReport] = useState(null);
                   </Avatar>
                 }
                 title="Total Recipients"
-                subheader={userReport[4]}
+                subheader={userReport.totalRecipients}
               />
               <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  Approved: {userReport[5]}
+                  Approved: {userReport.totalApprovedRecipients}
                   <br />
-                   Rejected: {userReport[6]}
+                   Rejected: {userReport.totalRejectedRecipients}
                 </Typography>
               </CardContent>
             </Card>
-          </Grid>
+          </Grid> 
         </>
       )}
     </Grid>
@@ -164,3 +270,14 @@ const [userReport,setUserReport] = useState(null);
 };
 
 export default Deny1;
+
+
+
+{/* <div className="App">
+<Home />
+<About />
+<Work />
+<Testimonial />
+<Contact />
+<Footer />
+</div> */}

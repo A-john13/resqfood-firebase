@@ -117,6 +117,7 @@ export const FirebaseProvider = (props) => {
         }
        })
       .catch((error) => { 
+        alert(error);
         const errorCode = error.code; 
         const errorMessage = error.message; 
       });
@@ -143,6 +144,7 @@ export const FirebaseProvider = (props) => {
     signOut(firebaseAuth);
     setUser(null);
     localStorage.removeItem('user'); 
+    alert("logged Out");
   };
 
 
