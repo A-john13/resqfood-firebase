@@ -593,6 +593,32 @@ const getTotalUsers = async () => {
 
 
 
+///dummy
+const listenTotalUsers = (callback) => {
+  const usersRef = collection(db, 'USERS');
+  const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+    const totalDonors = snapshot.docs.filter(doc => doc.data().role === '1').length;
+    const totalApproved = snapshot.docs.filter(doc => doc.data().adminApprove === true).length;
+    const totalRejected = snapshot.docs.filter(doc => doc.data().adminApprove === false).length;
+    const totalApprovedDonors = snapshot.docs.filter(doc => doc.data().adminApprove === true && doc.data().role === '1').length;
+    const totalRejectedDonors = snapshot.docs.filter(doc => doc.data().adminApprove === false && doc.data().role === '1').length;
+    const totalRecipients = snapshot.docs.filter(doc => doc.data().role === '2').length;
+    const totalApprovedRecipients = snapshot.docs.filter(doc => doc.data().adminApprove === true && doc.data().role === '2').length;
+    const totalRejectedRecipients = snapshot.docs.filter(doc => doc.data().adminApprove === false && doc.data().role === '2').length;
+    const totalUsers = snapshot.size;
+    const ratio = totalRecipients / totalDonors;
+
+    const userData = {totalUsers, totalApproved, totalRejected, totalDonors, totalApprovedDonors, totalRejectedDonors, totalRecipients, totalApprovedRecipients, totalRejectedRecipients, ratio };
+
+    callback(userData);
+  });
+console.log(userData);
+  return unsubscribe;
+};
+
+
+
+
   
     return {  userData,addUserData, addOrgData, addReqDonat, 
       getOrgUserData,getUserDetails,
@@ -602,6 +628,7 @@ const getTotalUsers = async () => {
       fetchPossibleMatches,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
       getDonationsReport,getTotalUsers,
+      listenTotalUsers,
       storeMatch,storeNotification,
       getDataById, getAllData };
       

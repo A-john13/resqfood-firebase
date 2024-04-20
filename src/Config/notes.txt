@@ -5,7 +5,8 @@ REQs - recipientId,adminVerify,status,createdAt,dateDonating,currentFoodSupply,r
 USERS - email,uid,role,name,adminApprove,
 USER_DATA - uid,adminVerifyDetails,firstName,fullName,address,district,pinCode,isOrg,phone,proof(url)
 Org_DATA -orgName,orgAddress,orgDistrict,orgPincode,orgEmail,orgPhone,orgProof
-
+NOTIFICATIONS -donationId, message, requestId, status, timestamp, userId
+MATCHES -createdAT,dateDonating,districtDonated,donationId,qtyDonated,requestId,status
 /
 /login
 /home

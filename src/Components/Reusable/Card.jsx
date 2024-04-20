@@ -56,8 +56,8 @@ const CustomCard = () => {
     <div className="cardCompo d-flex flex-wrap" style={{ width: "90%" }} >
      {organizations.map((org, index) => (
       <div className="cardWrap px-3 py-3 d-flex flex-wrap">
-        <Card key={index} style={{ width: "210px",height:"290px",boxShadow:'2px 3px 6px 4px grey' }} border="info" className="pt-1 text-center card">
-          <Card.Img variant="top" src={org.image} style={{ height: "150px", width: '288px'}} />
+        <Card key={index} style={{ width: "210px",height:"290px",boxShadow:'2px 3px 6px 4px grey' }} border="info" className="pt-2 mt-1 text-center card">
+          <Card.Img variant="top" src={org.image} style={{ height: "35%", width: '100%'}} />
           <Card.Body>
             <Card.Title>{org.title}</Card.Title>
             <Card.Text>{org.description}</Card.Text>

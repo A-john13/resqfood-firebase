@@ -6,6 +6,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../../Config/firebase";
 import useFirebaseCRUD from "../../Config/firebaseCRUD";
+import useFirebaseChart from "../firebaseCharts";
 
 import Home from "./home";
 import About from "./about";
@@ -14,7 +15,7 @@ import Contact from "./contact";
 import Work from "./work";
 import Testimonial from "./testimonial";
 
-import { Bar,Doughnut,Pie,Line,Scatter, } from 'react-chartjs-2';
+import { Doughnut,Pie,Line,Scatter,Bar, } from 'react-chartjs-2';
 import { Typography, Grid, Card, CardContent, CardHeader, Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
@@ -22,19 +23,16 @@ import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaCheckCircle, FaTimesCir
 
 const Deny1 = () => {
   const { UID, userRole } = useFirebase();
-const { getDonationsReport,getUserReports,getTotalUsers } = useFirebaseCRUD();
+const { getDonationsReport,getTotalUsers,listenTotalUsers } = useFirebaseCRUD();
+const {listenDonationsReport} = useFirebaseChart();
 
 const [donatReport, setDonatReport] = useState(null);
 const [userReport,setUserReport] = useState(null);
-var totalUsers = null;
-var totalDonors = null;
-var totalRecipients = null;
   useEffect(() => {
     const fetchReportData = async () => {
       const donat = await getDonationsReport();
       // const users = await getUserReports();
       const users = await getTotalUsers();
-      totalUsers=users[0];
       if(users){
 
         setUserReport(users);
@@ -46,6 +44,85 @@ var totalRecipients = null;
 
     fetchReportData();
   }, []);
+
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = listenTotalUsers((userData) => {
+      setUserData(userData);
+      console.log(userData,"ueerdat")
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const [data2, setData2] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = listenDonationsReport((data2) => {
+      setData2(data2);
+      console.log(data2,"data2")
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+  
+  const data = {
+    labels: ['Total Users', 'Total Donors', 'Total Recipients'],
+    datasets: [
+      {
+        label: 'Users',
+        data: [userData.totalUsers, userData.totalDonors, userData.totalRecipients],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+  const dataGraph = {
+    labels: ['Total Users', 'Total Donors', 'Total Recipients','Total Users', 'Total Donors', 'Total Recipients'],
+    datasets: [
+      {
+        label: 'Users',
+        data: [data2.totalDonations, data2.totalDonations,data2.donationsMadeDaily, data2.donationsMadeWeekly,data2.donationsMadeMonthly,data2.approvedDonations,data2.rejectedDonations],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
 
 
 
@@ -62,106 +139,108 @@ var totalRecipients = null;
   // }, []);
 
 
-  // const data = {
-  //   labels: ['Total', 'Approved', 'Rejected'],
-  //   datasets: [
-  //     {
-  //       label: 'users',
-  //       backgroundColor: 'rgba(75,0,130, 0.4)',
-  //       borderColor: 'rgba(75,0,130, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(75,0,130, 0.7)',
-  //       hoverBorderColor: 'rgba(75,0,130, 1)',
-  //       data: [totalUsers],
-  //     },
-  //     {
-  //       label: 'Donors',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //       borderColor: 'rgba(255, 99, 132, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
-  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
-  //       data: [userReport.totalDonors, userReport.totalApprovedDonors, userReport.totalRejectedDonors],
-  //     },
-  //     {
-  //       label: 'Recipients',
-  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
-  //       borderColor: 'rgba(54, 162, 235, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
-  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
-  //       data: [userReport.totalRecipients, userReport.totalApprovedRecipients, userReport.totalRejectedRecipients],
-  //     },
-  //   ],
-  // };
-  // const ReportCountdata = {
-  //   labels: ['Total', 'Approved', 'Rejected'],
-  //   datasets: [
-  //     {
-  //       label: 'Donations',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //       borderColor: 'rgba(255, 99, 132, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
-  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
-  //       data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
-  //     },
-  //     {
-  //       label: 'Requests',
-  //       backgroundColor: 'rgba(54, 162, 235, 0.2)',
-  //       borderColor: 'rgba(54, 162, 235, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
-  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
-  //       data: [donatReport.totalReqs,donatReport.approvedReqs,donatReport.rejectedReqs],
-  //     },
-  //   ],
-  // };
-  // const DonorDonationsdata = {
-  //   labels: ['Total', 'Approved', 'Rejected'],
-  //   datasets: [
-  //     {
-  //       label: 'Donors',
-  //       backgroundColor: 'rgba(95, 95, 195, 0.3)',
-  //       borderColor: 'rgba(95,95,195, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(95, 95, 195, 0.7)',
-  //       hoverBorderColor: 'rgba(54, 162, 235, 1)',
-  //       data: [userReport.totalDonors, userReport.totalApprovedDonors, userReport.totalRejectedDonors],
-  //     },
-  //     {
-  //       label: 'Donations',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //       borderColor: 'rgba(255, 99, 132, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
-  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
-  //       data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
-  //     },
-  //   ],
-  // };
-  // const ReqsRecipsdata = {
-  //   labels: ['Total', 'Approved', 'Rejected'],
-  //   datasets: [
-  //     {
-  //       label: 'Recipients',
-  //       backgroundColor: 'rgba(155,155,55, 0.3)',
-  //       borderColor: 'rgba(155,155,55, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(155,155,55, 0.7)',
-  //       hoverBorderColor: 'rgba(155,155,55, 1)',
-  //       data: [userReport.totalRecipients, userReport.totalApprovedRecipients, userReport.totalRejectedRecipients],
-  //     },
-  //     {
-  //       label: 'Requests',
-  //       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-  //       borderColor: 'rgba(255, 99, 132, 1)',
-  //       borderWidth: 1,
-  //       hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
-  //       hoverBorderColor: 'rgba(255, 99, 132, 1)',
-  //       data: [donatReport.totalReqs, donatReport.approvedReqs, donatReport.rejectedReqs],
-  //     },
-  //   ],
+//   const data1 = {
+//     labels: ['Total', 'Approved', 'Rejected'],
+//     datasets: [
+//       {
+//         label: 'users',
+//         backgroundColor: 'rgba(75,0,130, 0.4)',
+//         borderColor: 'rgba(75,0,130, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(75,0,130, 0.7)',
+//         hoverBorderColor: 'rgba(75,0,130, 1)',
+//         data: [totalUsers],
+//       },
+//       {
+//         label: 'Donors',
+//         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+//         borderColor: 'rgba(255, 99, 132, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+//         hoverBorderColor: 'rgba(255, 99, 132, 1)',
+//         data: [userData.totalDonors, userData.totalApprovedDonors, userData.totalRejectedDonors],
+//       },
+//       {
+//         label: 'Recipients',
+//         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+//         borderColor: 'rgba(54, 162, 235, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+//         hoverBorderColor: 'rgba(54, 162, 235, 1)',
+//         data: [userData.totalRecipients, userData.totalApprovedRecipients, userData.totalRejectedRecipients],
+//       },
+//     ],
+//   };
+//   const ReportCountdata = {
+//     labels: ['Total', 'Approved', 'Rejected'],
+//     datasets: [
+//       {
+//         label: 'Donations',
+//         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+//         borderColor: 'rgba(255, 99, 132, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+//         hoverBorderColor: 'rgba(255, 99, 132, 1)',
+//         data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
+//       },
+//       {
+//         label: 'Requests',
+//         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+//         borderColor: 'rgba(54, 162, 235, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(54, 162, 235, 0.4)',
+//         hoverBorderColor: 'rgba(54, 162, 235, 1)',
+//         data: [donatReport.totalReqs,donatReport.approvedReqs,donatReport.rejectedReqs],
+//       },
+//     ],
+//   };
+//   const DonorDonationsdata = {
+//     labels: ['Total', 'Approved', 'Rejected'],
+//     datasets: [
+//       {
+//         label: 'Donors',
+//         backgroundColor: 'rgba(95, 95, 195, 0.3)',
+//         borderColor: 'rgba(95,95,195, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(95, 95, 195, 0.7)',
+//         hoverBorderColor: 'rgba(54, 162, 235, 1)',
+//         data: [userData.totalDonors, userData.totalApprovedDonors, userData.totalRejectedDonors],
+//       },
+//       {
+//         label: 'Donations',
+//         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+//         borderColor: 'rgba(255, 99, 132, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+//         hoverBorderColor: 'rgba(255, 99, 132, 1)',
+//         data: [donatReport.totalDonations, donatReport.approvedDonations, donatReport.rejectedDonations],
+//       },
+//     ],
+//   };
+//   const ReqsRecipsdata = {
+//     labels: ['Total', 'Approved', 'Rejected'],
+//     datasets: [
+//       {
+//         label: 'Recipients',
+//         backgroundColor: 'rgba(155,155,55, 0.3)',
+//         borderColor: 'rgba(155,155,55, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(155,155,55, 0.7)',
+//         hoverBorderColor: 'rgba(155,155,55, 1)',
+//         data: [userData.totalRecipients, userData.totalApprovedRecipients, userData.totalRejectedRecipients],
+//       },
+//       {
+//         label: 'Requests',
+//         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+//         borderColor: 'rgba(255, 99, 132, 1)',
+//         borderWidth: 1,
+//         hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+//         hoverBorderColor: 'rgba(255, 99, 132, 1)',
+//         data: [donatReport.totalReqs, donatReport.approvedReqs, donatReport.rejectedReqs],
+//       },
+//     ],
+// }
+
 
 
   
@@ -169,14 +248,49 @@ var totalRecipients = null;
   return (
     <div >
 
-  { userReport === !null && (
-    <>
-    <div> 
-      <h2>Donations vs Requests</h2>
-      <Bar data={data} />
+<div>
+      <h2>Users Chart</h2>
+      <Bar data={data} options={options} />
     </div>
 
-    <div>
+<div> 
+      <h2></h2>
+      <Bar data={dataGraph} options={options} />
+     <strong>strog{
+        data2.totalDonations
+      }
+      </strong> 
+     <strong>strog{
+        data2.donationsMadeWeekly}
+      </strong> 
+     <strong>strog{
+        data2.donationsMadeMonthly
+      }
+      </strong> 
+     <strong>strog{
+        data2.approvedDonations
+      }
+      </strong> 
+     <strong>strog{
+        data2.rejectedDonations
+      }
+      </strong> 
+    </div>
+{/* <div>
+      <p>Total Users: {userData.totalUsers}</p>
+      <p>Total Donors: {userData.totalDonors}</p>
+      <p>Total Approved Donors: {userData.totalApprovedDonors}</p>
+      <p>Total Rejected Donors: {userData.totalRejectedDonors}</p>
+      <p>Total Recipients: {userData.totalRecipients}</p>
+      <p>Total Approved Recipients: {userData.totalApprovedRecipients}</p>
+      <p>Total Rejected Recipients: {userData.totalRejectedRecipients}</p>
+      <p>Ratio: {userData.ratio}</p>
+    </div>
+  */}
+    <>
+    
+
+    {/* <div>
       <h2>Donors vs Recipients</h2>
       <Bar data={ReportCountdata} />
     </div>
@@ -187,9 +301,8 @@ var totalRecipients = null;
     <div>
       <h2>Recipients vs Requests</h2>
       <Bar data={ReqsRecipsdata} />
-    </div>
+    </div> */}
  </>
-   ) }
 
 {userReport && 
 ( <h1> To be approved: {userReport.totalRejectedDonors}</h1> )
