@@ -1,27 +1,17 @@
-/* reports */
-
-.adminReportBox{
-    min-height: 100dvh !important;
-    max-height: max-content;
-    width: 100dvw !important;
-}
-
-/* .adminReportBox .reports{
-    height: fit-content;
-} */
-#myChart{
-    height: 50dvh !important;
-    min-height: fit-content ;
-    width: 50dvw !important;
-    /* background-color: white; */
-}
-/* .reportStyle = {
-    backgroundColor: #f9f9f9,
-    padding: 20px,
-    borderRadius: 5px,
-    boxShadow: 0 2px 4px rgba(0,0,0,0.1),
-    margin: 20px 0,
-  };
-  .iconStyle = {
-    marginRight: 5px,
-  }; */
+.reportBox{
+    min-height: 100dvh;
+     display: flex;
+     flex-wrap: wrap;
+      place-content: center !important;
+      text-align: center;
+  }
+   
+  .reportBox .chart{
+    padding: 20px 0px 0px 20px;
+    margin-bottom: 20px;
+    width: 40dvw;
+  }
+  
+  
+  
+  

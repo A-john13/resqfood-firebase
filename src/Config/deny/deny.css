@@ -1,27 +1,49 @@
-/* .deny {
-    color: white;
-    font-weight: 600;
-    height: 100dvh;
-    width: 100dvw;
-    /* background-image: linear-gradient( rgba(32,211,188, 0.7) 100%, transparent), url('/donation0.png');    object-fit: cover !important;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover; */
-    /* place-content: center !important;
-
+.deny {
+  min-height: 100dvh;
+   display: flex;
+   flex-wrap: wrap;
+    place-content: center !important;
     text-align: center;
-} */ */
+}
+ 
+.deny .chart{
+  padding: 20px 0px 0px 20px;
+  margin-bottom: 20px;
+  width: 40dvw;
+}
 
 
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Reem Kufi", sans-serif !important;
-  }
-  img {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* img {
     max-width: 100%;
     height: auto;
   }
@@ -442,4 +464,4 @@
     .about-background-image-container {
       display: none;
     }
-  }
+  } */

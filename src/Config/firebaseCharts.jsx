@@ -66,6 +66,7 @@ const listenReqsReport = (callback) => {
     const totalReqs = reqsData.length;
 
     const today = new Date();
+    const nextday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     const reqStartOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const reqStartOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
     const reqStartOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -121,7 +122,7 @@ const listenTotalUsers = (callback) => {
 
     callback(userData);
   });
-console.log(userData);
+  console.log(userData);
   return unsubscribe;
 };
 

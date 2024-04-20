@@ -112,7 +112,7 @@ const AdminDash = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link className="p-4" as={Link} to="/report">
+                <Nav.Link className="p-4" as={Link} to="/deny">
                   Reports
                 </Nav.Link>
               </Nav.Item>
