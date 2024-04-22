@@ -25,8 +25,11 @@ const useFirebaseChart = () => {
     const donatStartOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const nextday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     const donatStartOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+    const donatEndOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()+7);
     const donatStartOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const donatEndOfThisMonth = new Date(today.getFullYear(), today.getMonth()+1, 1);
 
+    // console.log(donatStartOfThisMonth,donatEndOfThisMonth);
     const donationsMadeDaily = donationsData.filter((donation) => {
       const donationDate = new Date(donation.dateDonating);
       return donationDate >= donatStartOfToday && donationDate < nextday;
@@ -34,12 +37,12 @@ const useFirebaseChart = () => {
 
     const donationsMadeWeekly = donationsData.filter((donation) => {
       const donationDate = new Date(donation.dateDonating);
-      return donationDate >= donatStartOfThisWeek && donationDate < donatStartOfToday;
+      return donationDate >= donatStartOfThisWeek && donationDate < donatEndOfThisWeek;
     }).length;
 
     const donationsMadeMonthly = donationsData.filter((donation) => {
       const donationDate = new Date(donation.dateDonating);
-      return donationDate >= donatStartOfThisMonth && donationDate < donatStartOfToday;
+      return donationDate >= donatStartOfThisMonth && donationDate < donatEndOfThisMonth;
     }).length;
 
     const approvedDonations = donationsData.filter((donation) => donation.adminVerify === true).length;
@@ -69,7 +72,9 @@ const listenReqsReport = (callback) => {
     const nextday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     const reqStartOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const reqStartOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+    const reqEndOfThisWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay()+7);
     const reqStartOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    const reqEndOfThisMonth = new Date(today.getFullYear(), today.getMonth(), 2);
 
     const reqsMadeDaily = reqsData.filter((req) => {
       const reqDate = new Date(req.dateDonating);
@@ -78,12 +83,12 @@ const listenReqsReport = (callback) => {
 
     const reqsMadeWeekly = reqsData.filter((req) => {
       const reqDate = new Date(req.dateDonating);
-      return reqDate >= reqStartOfThisWeek && reqDate < reqStartOfToday;
+      return reqDate >= reqStartOfThisWeek && reqDate < reqEndOfThisWeek;
     }).length;
 
     const reqsMadeMonthly = reqsData.filter((req) => {
       const reqDate = new Date(req.dateDonating);
-      return reqDate >= reqStartOfThisMonth && reqDate < reqStartOfToday;
+      return reqDate >= reqStartOfThisMonth && reqDate < reqEndOfThisMonth;
     }).length;
 
     const approvedReqs = reqsData.filter((req) => req.adminVerify === true).length;
@@ -98,6 +103,7 @@ const listenReqsReport = (callback) => {
       rejectedReqs,
     };
 
+    // console.log(reqStartOfThisWeek,reqEndOfThisWeek);
     callback(reqsReport);
   });
 };

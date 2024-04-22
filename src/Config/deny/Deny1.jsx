@@ -3,11 +3,14 @@ import React, { useState,useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Alert from "react-bootstrap/Alert";
 import { useNavigate } from "react-router-dom";
 import { useFirebase } from "../../Config/firebase";
 import useFirebaseCRUD from "../../Config/firebaseCRUD";
 import useFirebaseChart from "../firebaseCharts";
-
+import  Row from "react-bootstrap/Row";
+import Toast from 'react-bootstrap/Toast';
+import  Card  from "react-bootstrap/Card";
 import Home from "./home";
 import About from "./about";
 import Footer from "./footer";
@@ -16,7 +19,7 @@ import Work from "./work";
 import Testimonial from "./testimonial";
 
 import { Doughnut,Pie,Line,Scatter,Bar, } from 'react-chartjs-2';
-import { Typography, Grid, Card, CardContent, CardHeader, Avatar } from '@mui/material';
+// import { Typography, Grid, Card, CardContent, CardHeader, Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupIcon from '@mui/icons-material/Group';
 import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
@@ -25,6 +28,7 @@ import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt, FaCheckCircle, FaTimesCir
 
 const Deny1 = () => {
   const { UID, userRole } = useFirebase();
+  const nav =useNavigate();
   const { listenTotalUsers } = useFirebaseCRUD();
   const { listenDonationsReport, listenReqsReport } = useFirebaseChart();
 
@@ -83,11 +87,11 @@ const Deny1 = () => {
   };
   
   const data2 = {
-    labels: ['Total Donations', 'Daily Donations', 'Weekly Donations', 'Monthly Donations', 'Approved Donations', 'Rejected Donations'],
+    labels: ['Total Donations', 'Daily Donations', 'Weekly Donations', 'Monthly Donations'],
     datasets: [
       {
         label: 'Donations',
-        data: [donatReport.totalDonations, donatReport.donationsMadeDaily, donatReport.donationsMadeWeekly, donatReport.donationsMadeMonthly, donatReport.approvedDonations, donatReport.rejectedDonations],
+        data: [donatReport.totalDonations, donatReport.donationsMadeDaily, donatReport.donationsMadeWeekly, donatReport.donationsMadeMonthly,],
         backgroundColor: [
           'rgba(75,0,130, 0.4)',
           'rgba(54, 12, 55, 0.2)',
@@ -177,12 +181,12 @@ const Deny1 = () => {
       },
       {
         label: 'Requests',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(55, 1, 132, 0.2)',
+        borderColor: 'rgba(55, 1, 132, 1)',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
-        hoverBorderColor: 'rgba(255, 99, 132, 1)',
-        data: [donatReport.totalReqs, donatReport.approvedReqs, donatReport.rejectedReqs],
+        hoverBackgroundColor: 'rgba(55, 1, 132, 0.4)',
+        hoverBorderColor: 'rgba(55, 1, 132, 1)',
+        data: [reqsReport.totalReqs, reqsReport.approvedReqs, reqsReport.rejectedReqs],
       },
     ],
   };
@@ -195,39 +199,109 @@ const Deny1 = () => {
     },
   };
 
+  const navigator =()=>{
+    nav('/user/role/adminDash');
+  }
 
   return (
     <>
-
+    {/* <Row style={{height:'max-content',width:'100dnvw'}}>
+      <Button  onClick={navigator}>Home</Button>
+      <h1>Reports</h1>
+      </Row> */}
     <div className="deny">
-    <div className="chart">
+     
+    <div className="place-content-center chart">
       <h2>Users </h2>
       <Bar data={data} options={options} />
+
+      <Toast style={{background:'inherit'}}>
+      <Toast.Header>
+        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <strong className="me-auto">Reports</strong>
+      </Toast.Header>
+      <Toast.Body>
+      Total Donors: {userReport.totalDonors}<br />
+          Approved: {userReport.totalApprovedDonors}<br />
+          Rejected: {userReport.totalRejectedDonors}
+      </Toast.Body>
+    </Toast>
     </div>
 
     <div className="chart">
       <h2>Donations </h2>
       <Bar data={data2} options={options} />
+
+      <Toast style={{background:'inherit'}}>
+      <Toast.Header>
+        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <strong className="me-auto">Reports</strong>
+      </Toast.Header>
+      <Toast.Body>
+      Total Donations : {donatReport.totalDonations}<br />
+      Donations Made today : {donatReport.donationsMadeDaily}<br />
+      This Weeks Donations: {donatReport.donationsMadeWeekly}<br />
+      Monthly Donations : {donatReport.donationsMadeMonthly}
+      </Toast.Body>
+    </Toast>
     </div>
 
     <div className="chart">
       <h2>Requests </h2>
       <Bar data={data3} options={options} />
+      <Toast style={{background:'inherit'}}>
+      <Toast.Header>
+        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <strong className="me-auto">Reports</strong>
+      </Toast.Header>
+      <Toast.Body>
+      Total Donations : {reqsReport.totalReqs}<br />
+      Donations Made today : {reqsReport.reqsMadeDaily}<br />
+      This Weeks Donations: {reqsReport.reqsMadeWeekly}<br />
+      Monthly Donations : {reqsReport.reqsMadeMonthly}
+      </Toast.Body>
+      </Toast>
     </div>
 
-    <div className="ms-5 chart" style={{height:'50dvh'}}>
+    {/* <div className="ms-5 chart" style={{height:'50dvh'}}>
       <h2>Users </h2>
       <Doughnut data={data} options={options} />
-    </div>
+    </div> */}
 
     <div className="chart">
       <h2>Donors vs Donations </h2>
       <Bar data={DonorDonationsdata} options={options} />
+      <div className="d-flex justify-content-center">
+      <Toast style={{background:'inherit'}}>
+      <Toast.Header>
+        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <strong className="me-auto">Reports</strong>
+      </Toast.Header>
+      <Toast.Body>
+      Total Users : {userReport.totalUsers}<br />
+      Total Donors : {userReport.totalDonors}<br />
+      Approved Donors : {userReport.totalApprovedDonors}<br />
+      To be approved : {userReport.totalRejectedDonors}
+      </Toast.Body>
+      </Toast>
+      </div>
     </div>
 
     <div className="chart">
       <h2>Requests vs Recipients</h2>
       <Bar data={ReqsRecipsdata} options={options} />
+      <Toast style={{background:'inherit'}}>
+      <Toast.Header>
+        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <strong className="me-auto">Reports</strong>
+      </Toast.Header>
+      <Toast.Body>
+      Total Users : {userReport.totalUsers}<br />
+     Total Recipients: {userReport.totalRecipients}<br />
+      Approved Recipients : {userReport.totalApprovedRecipients}<br />
+      To be approved : {userReport.totalRejectedRecipients}
+      </Toast.Body>
+      </Toast>
     </div>
 
    
@@ -244,43 +318,33 @@ const Deny1 = () => {
       <Scatter data={data3} options={options} />
     </div> */}
 
-    </div>
+
+
 {/* 
-<div className="gridCards" style={{width:'100dvh',position:'relative', top:'20',left:'10'}}>
-    <Grid container spacing={2}>
-  <Grid item xs={6} sm={4}>
+<div className="gridCards" style={{display:'block',width:'100dvw',}}>
+  <Alert>
     <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">
           Donors vs Donations
-        </Typography>
-        <Bar data={DonorDonationsdata} options={options} />
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Card.Body>
           Total Donors: {userReport.totalDonors}<br />
           Approved: {userReport.totalApprovedDonors}<br />
           Rejected: {userReport.totalRejectedDonors}
-        </Typography>
-      </CardContent>
+        </Card.Body>
     </Card>
-  </Grid>
-  <Grid item xs={6} sm={4}>
     <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">
+      <Card.Body>
           Recipients vs Requests
-        </Typography>
-        <Bar data={ReqsRecipsdata} options={options} />
-        <Typography variant="body2" color="textSecondary" component="p">
           Total Recipients: {userReport.totalRecipients}<br />
           Approved: {userReport.totalApprovedRecipients}<br />
           Rejected: {userReport.totalRejectedRecipients}
-        </Typography>
-      </CardContent>
+        </Card.Body>
+      
     </Card>
-  </Grid>
-</Grid>
 
+</Alert>
 </div> */}
+    </div>
+
 
 </>
    );

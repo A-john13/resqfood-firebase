@@ -99,7 +99,7 @@ const useFirebaseCRUD = () => {
           if (!userQuerySnapshot.empty) {
             const userDetails = userQuerySnapshot.docs[0].data()
              setUserData(userDetails);
-            console.log(userData);
+            // console.log(userData.data);
             return userData;
           } else {
             console.log('User data not found');
@@ -153,9 +153,12 @@ const getDonatData = async () => {
   }
 };
 //requests
-const getReqsData = async (uid) => {
+const getReqsData = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'REQs'), where('recipientID', '==', uid));
+    const queryRef = collection(db,'REQs');
+    const reqQuery = query(queryRef, where('recipientID', '==', UID));
+    const  querySnapshot = await getDocs(reqQuery);
+    // const querySnapshot = await getDocs(collection(db, 'REQs'), where('recipientID', '==', UID));
     const userData = [];
     querySnapshot.forEach((doc) => {
       userData.push({ id: doc.id, ...doc.data() });
@@ -487,7 +490,9 @@ const storeMatch = async (donationId, requestId, qtyDonated, date,district, stat
 
     const requestRef = doc(db, "REQs", requestId);
     await updateDoc(requestRef, { status: 1 });
-    const docRef = await addDoc(collection(db, 'COMBINED'), {
+    const docRef = await addDoc(collection(db, 'matches'), {
+      donorId:donorID,
+      recipientID:recipientID,
       donationId: donationId,
       requestId: requestId,
       qtyDonated: qtyDonated,
@@ -500,6 +505,50 @@ const storeMatch = async (donationId, requestId, qtyDonated, date,district, stat
     alert("Document Added");
   } catch (error) {
     console.error('Error adding match: ', error);
+  }
+};
+
+
+//profile
+const fetchMatchesByDonationId = async () => {
+  try {
+    const matchesRef = collection(db, 'matches');
+    const tableQuery = query(matchesRef, where('donorId', '==', UID));
+    const querySnapshot = await getDocs(tableQuery);
+    console.log('query',querySnapshot.docs);
+    const matches = [];
+    querySnapshot.forEach((doc) => {
+      matches.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    console.log(matches,'matches');
+    return matches;
+  } catch (error) {
+    console.error('Error fetching matches by donationId:', error);
+    return [];
+  }
+};
+
+const fetchMatchesByRequestId = async () => {
+  try {
+    const matchesRef = collection(db, 'matches');
+    const tableQuery = query(matchesRef, where('recipientId', '==', mfuRowCWwohp2QrdH8a91hkFUlu1));
+    const querySnapshot = await getDocs(tableQuery);
+    const matches = [];
+    querySnapshot.forEach((doc) => {
+      matches.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+
+    console.log(matches,'matches');
+    return matches;
+  } catch (error) {
+    console.error('Error fetching matches by donationId:', error);
+    return [];
   }
 };
 
@@ -625,9 +674,10 @@ console.log(userData);
       getReqsData, getDonatData, 
       getNotifications, PostNotifications,createCombinationApprovalNotification,
       fetchDonations,fetchRequests,fetchUsers,fetchUserDetails,
-      fetchPossibleMatches,
+      fetchPossibleMatches,fetchMatchesByDonationId,fetchMatchesByRequestId,
       fetchAllDonations,groupDonations,getGroupByDonorId,getGroupByDistrict,
       getDonationsReport,getTotalUsers,
+
       listenTotalUsers,
       storeMatch,storeNotification,
       getDataById, getAllData };
