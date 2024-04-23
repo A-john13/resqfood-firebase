@@ -214,53 +214,60 @@ const Deny1 = () => {
     <div className="place-content-center chart">
       <h2>Users </h2>
       <Bar data={data} options={options} />
-
+      <div className="d-flex justify-content-center">
       <Toast style={{background:'inherit'}}>
       <Toast.Header>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">Reports</strong>
       </Toast.Header>
-      <Toast.Body>
+      <Toast.Body><strong>
       Total Donors: {userReport.totalDonors}<br />
           Approved: {userReport.totalApprovedDonors}<br />
-          Rejected: {userReport.totalRejectedDonors}
-      </Toast.Body>
+          To be approved: {userReport.totalRejectedDonors}
+      </strong></Toast.Body>
     </Toast>
+    </div>
     </div>
 
     <div className="chart">
       <h2>Donations </h2>
       <Bar data={data2} options={options} />
-
+      <div className="d-flex justify-content-center">
       <Toast style={{background:'inherit'}}>
       <Toast.Header>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">Reports</strong>
       </Toast.Header>
       <Toast.Body>
+        <strong>
       Total Donations : {donatReport.totalDonations}<br />
       Donations Made today : {donatReport.donationsMadeDaily}<br />
-      This Weeks Donations: {donatReport.donationsMadeWeekly}<br />
+      Weekly Donations: {donatReport.donationsMadeWeekly}<br />
       Monthly Donations : {donatReport.donationsMadeMonthly}
+      </strong>
       </Toast.Body>
     </Toast>
     </div>
-
+    </div>
     <div className="chart">
       <h2>Requests </h2>
       <Bar data={data3} options={options} />
+      <div className="d-flex justify-content-center">
       <Toast style={{background:'inherit'}}>
       <Toast.Header>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">Reports</strong>
       </Toast.Header>
       <Toast.Body>
-      Total Donations : {reqsReport.totalReqs}<br />
-      Donations Made today : {reqsReport.reqsMadeDaily}<br />
-      This Weeks Donations: {reqsReport.reqsMadeWeekly}<br />
+        <strong>
+      Total Requests : {reqsReport.totalReqs}<br />
+      Requests Made today : {reqsReport.reqsMadeDaily}<br />
+      Weekly Requests: {reqsReport.reqsMadeWeekly}<br />
       Monthly Donations : {reqsReport.reqsMadeMonthly}
+      </strong>
       </Toast.Body>
       </Toast>
+    </div>
     </div>
 
     {/* <div className="ms-5 chart" style={{height:'50dvh'}}>
@@ -277,12 +284,12 @@ const Deny1 = () => {
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">Reports</strong>
       </Toast.Header>
-      <Toast.Body>
+      <Toast.Body><strong>
       Total Users : {userReport.totalUsers}<br />
       Total Donors : {userReport.totalDonors}<br />
       Approved Donors : {userReport.totalApprovedDonors}<br />
       To be approved : {userReport.totalRejectedDonors}
-      </Toast.Body>
+      </strong></Toast.Body>
       </Toast>
       </div>
     </div>
@@ -290,18 +297,20 @@ const Deny1 = () => {
     <div className="chart">
       <h2>Requests vs Recipients</h2>
       <Bar data={ReqsRecipsdata} options={options} />
+      <div className="d-flex justify-content-center">
       <Toast style={{background:'inherit'}}>
       <Toast.Header>
         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
         <strong className="me-auto">Reports</strong>
       </Toast.Header>
-      <Toast.Body>
+      <Toast.Body><strong>
       Total Users : {userReport.totalUsers}<br />
      Total Recipients: {userReport.totalRecipients}<br />
       Approved Recipients : {userReport.totalApprovedRecipients}<br />
       To be approved : {userReport.totalRejectedRecipients}
-      </Toast.Body>
+      </strong></Toast.Body>
       </Toast>
+    </div>
     </div>
 
    
